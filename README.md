@@ -1,2 +1,0 @@
-# askhawaiiai
-AskHawaii AI
