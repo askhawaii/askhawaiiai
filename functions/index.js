@@ -1,5 +1,3 @@
-
-// The Cloud Functions for Firebase SDK to create Cloud Functions and set up triggers.
 const functions = require('firebase-functions');
 
 const { Configuration, OpenAIApi } = require("openai");
@@ -8,10 +6,9 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-exports.rafaTest = functions.https.onRequest(async (req, res) => {
-    const animalInput = req.query.text;
+exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
+    const questionInput = req.query.text;
     try {
-
         if (!configuration.apiKey) {
           res.status(500).json({
                 error: {
@@ -21,10 +18,10 @@ exports.rafaTest = functions.https.onRequest(async (req, res) => {
             return;
         }
 
-        if (animalInput.trim().length === 0) {
+        if (questionInput.trim().length === 0) {
             res.status(400).json({
                 error: {
-                    message: "Please enter a valid animal",
+                    message: "Please enter a valid question",
                 }
             });
             return;
@@ -33,12 +30,24 @@ exports.rafaTest = functions.https.onRequest(async (req, res) => {
         try {
             const completion = await openai.createCompletion({
                 model: "text-davinci-003",
-                prompt: generatePrompt(animalInput),
-                temperature: 0.6,
+                prompt: generatePrompt(questionInput),
+                temperature: 0.8,                
+                max_tokens: 1500,
+                top_p: 1,
+                frequency_penalty: 0.0,
+                presence_penalty: 0.0,
+                stop: ["\n"],
             });
+
+            // console.log(`hey`);
+            // console.log(completion.data.choices[0].text);
+            // res.status(200).json({ result: completion.data.choices[0].text });
             res.status(200).json({ result: completion.data.choices[0].text });
+            // res.status(200).send(`<div>
+            // ${completion.data.choices[0].text})
+            // </div>`);
+
         } catch(error) {
-            // Consider adjusting the error handling logic for your use case
             if (error.response) {
                 console.error(error.response.status, error.response.data);
                 res.status(error.response.status).json(error.response.data);
@@ -56,15 +65,10 @@ exports.rafaTest = functions.https.onRequest(async (req, res) => {
     }
 });
 
-function generatePrompt(animal) {
-    const capitalizedAnimal =
-      animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-    return `Suggest three names for an animal that is a superhero.
+function generatePrompt(question) {
+    // const capitalizedAnimal = animal[0].toUpperCase() + animal.slice(1).toLowerCase();
+    return `Answer questions related with any topic.
   
-  Animal: Cat
-  Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-  Animal: Dog
-  Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-  Animal: ${capitalizedAnimal}
-  Names:`;
-  }
+  Question: ${question}
+  Content:`;
+}
