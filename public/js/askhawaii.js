@@ -12,6 +12,7 @@ window.addEventListener("load", () => {
     XHR.addEventListener("load", (event) => {
       // alert(event.target.responseText);
       askhawaiiText.textContent = event.target.responseText;
+      hideSpinner();
     });
 
     // Define what happens in case of error
@@ -32,18 +33,26 @@ window.addEventListener("load", () => {
   // Add 'submit' event handler
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-
-    console.log(askhawaiiQuestion.value)
-
-    // var textarea = document.getElementById("askhawaii-text");
-    // if (textarea.style.display === "none") {
-    //   textarea.style.display = "block";
-    // } else {
-    //   textarea.style.display = "none";
-    // }
-
+    console.log(askhawaiiQuestion.value);
+    showSpinner();
     sendData();
   });
+
+  function showSpinner() {
+    console.log("> showing spinner");
+    var spinner = document.getElementById("spinner");
+    spinner.hidden = false;
+    var formResponse = document.getElementById("form-response");
+    formResponse.hidden = true;
+  }
+
+  function hideSpinner() {
+    console.log("> hidding spinner");
+    var spinner = document.getElementById("spinner");
+    spinner.hidden = true;
+    var formResponse = document.getElementById("form-response");
+    formResponse.hidden = false;
+}
 });
 
 

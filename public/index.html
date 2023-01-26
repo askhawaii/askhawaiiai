@@ -73,14 +73,14 @@
         <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
         <!-- <h1 class="h3 mb-3 fw-normal">Ask Hawaii</h1> -->
         <h1>Ask Hawaii AI</h1>
-    
+        
         <div class="input-group">
           <span class="input-group-text">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>
           </span>
-          <input type="text" id="askhawaii-question" class="form-control" placeholder="best time to visit Hawaii?" aria-label="best time to visit Hawaii?" aria-describedby="basic-addon1">
+          <input type="text" id="askhawaii-question" class="form-control" placeholder="best time to visit Hawaii?" aria-label="best time to visit Hawaii?" aria-describedby="basic-addon1" onsubmit="showSpinner()">
         </div>
 
         <!-- <div class="form-floating">
@@ -92,10 +92,13 @@
           <!-- <button id="btnSubmit" class="w-100 btn btn-lg btn-primary" type="submit">Send</button> -->
       </form>
 
-      <div class="form-response">
-        <div class="textarea" name="askhawaii-text" id="askhawaii-text" rows="10" readonly></div>
+      <div class="form-response" id="form-response" hidden="true">
+        <div class="textarea" name="askhawaii-text" id="askhawaii-text" rows="10" visible="false" readonly></div>
       </div>
-      
+
+      <div class="spinner-border text-secondary" role="status" id="spinner" hidden="true">
+        <span class="sr-only"></span>
+      </div>
         <!-- <span class="placeholder col-12"></span> -->
       </div>
       <p id="demo"></p>      

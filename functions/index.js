@@ -39,13 +39,12 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                 stop: ["\n"],
             });
 
-            // console.log(`hey`);
-            // console.log(completion.data.choices[0].text);
             // res.status(200).json({ result: completion.data.choices[0].text });
             res.status(200).json({ result: completion.data.choices[0].text });
             // res.status(200).send(`<div>
             // ${completion.data.choices[0].text})
             // </div>`);
+
 
         } catch(error) {
             if (error.response) {
