@@ -28,19 +28,34 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
         }
 
         try {
+            // const completion = await openai.createCompletion({
+            //     model: "text-davinci-003",
+            //     prompt: generatePrompt(questionInput),
+            //     temperature: 0,                
+            //     max_tokens: 1500,
+            //     top_p: 1,
+            //     frequency_penalty: 0.0,
+            //     presence_penalty: 0.0,
+            //     stop: ["\n"],
+            // });
+
             const completion = await openai.createCompletion({
                 model: "text-davinci-003",
-                prompt: generatePrompt(questionInput),
-                temperature: 0.8,                
+                prompt: generatePrompt(questionInput), 
+                temperature: 0.9,
                 max_tokens: 1500,
                 top_p: 1,
                 frequency_penalty: 0.0,
-                presence_penalty: 0.0,
-                stop: ["\n"],
-            });
+                presence_penalty: 0.6,
+                stop: [" Human:", " AI:"],
+              });
+
+
 
             // res.status(200).json({ result: completion.data.choices[0].text });
             res.status(200).json({ result: completion.data.choices[0].text });
+            // res.status(200).text({ result: completion.data.choices[0].text });
+
             // res.status(200).send(`<div>
             // ${completion.data.choices[0].text})
             // </div>`);
@@ -64,10 +79,17 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
     }
 });
 
-function generatePrompt(question) {
-    // const capitalizedAnimal = animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-    return `Answer questions related with any topic.
+// function generatePrompt(question) {
+//     // const capitalizedAnimal = animal[0].toUpperCase() + animal.slice(1).toLowerCase();
+//     return `Answer questions related with any topic.
   
-  Question: ${question}
-  Content:`;
+//   Question: ${question}
+//   Content:`;
+// }
+
+function generatePrompt(question) {
+    return `The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
+    
+    Human: ${question}
+    AI:`;
 }

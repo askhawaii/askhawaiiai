@@ -16,9 +16,16 @@ body {
   padding: 30px;
 }
 
-/* .form-signin .form-floating:focus-within {
+.form-signin .form-floating:focus-within {
   z-index: 2;
-} */
+}
+
+.form-control:focus {
+  border-color: whitesmoke;
+  border-style: hidden;
+  -webkit-box-shadow: none;
+  /* box-shadow: red; */
+}
 
 /* .form-signin input[type="text"] {
   margin-bottom: -1px;
@@ -52,8 +59,8 @@ body {
   margin-top: 30px;
 }
 
-.textarea {
-  width: 460px;
+.answer {
+  /* width: 460px; */
   max-width: 530px;
   /* width: 530px; */
   padding: 20px;
@@ -61,7 +68,18 @@ body {
   border-radius: 24px;
   background-color: white;
   border-color: lightgray;
+  text-align: left;
   /* visibility: hidden; */
+}
+
+.answer .question {
+  font-size: large;
+  font-weight: 500;
+  padding-bottom: 20px;
+}
+
+.ad {
+  margin-top: 20px;
 }
 
 h1 {
@@ -69,4 +87,3 @@ h1 {
   text-align: left;
   margin-bottom: 12px;
 }
-  

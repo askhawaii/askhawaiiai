@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="AskHawaii">
-    <title>AskHawaii</title>
+    <title>Ask Hawaii AI</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
     <link href="./bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/favicon.jpeg">
     
     <style>
       .bd-placeholder-img {
@@ -80,7 +81,7 @@
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>
           </span>
-          <input type="text" id="askhawaii-question" class="form-control" placeholder="best time to visit Hawaii?" aria-label="best time to visit Hawaii?" aria-describedby="basic-addon1" onsubmit="showSpinner()">
+          <input type="search" id="askhawaii-question" class="form-control" placeholder="Ask anything Hawaii..." aria-label="Ask anything Hawaii..." aria-describedby="basic-addon1" onsubmit="showSpinner()">
         </div>
 
         <!-- <div class="form-floating">
@@ -93,7 +94,11 @@
       </form>
 
       <div class="form-response" id="form-response" hidden="true">
-        <div class="textarea" name="askhawaii-text" id="askhawaii-text" rows="10" visible="false" readonly></div>
+        <div class="answer">
+          <div class="question" name="question" id="question">Here will be the question</div>
+          <div class="textarea" name="askhawaii-text" id="askhawaii-text" rows="10" visible="false" readonly></div>          
+        </div>        
+        <div class="ad">Please visit <a href="https://hawaiiblt.com" target="_blank">HawaiiBLT</a></div>
       </div>
 
       <div class="spinner-border text-secondary" role="status" id="spinner" hidden="true">

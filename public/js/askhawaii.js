@@ -1,5 +1,6 @@
 const askhawaiiText = document.getElementById('askhawaii-text');
 const askhawaiiQuestion = document.getElementById('askhawaii-question');
+const answerQuestion = document.getElementById('question');
 
 window.addEventListener("load", () => {
   function sendData() {
@@ -11,7 +12,9 @@ window.addEventListener("load", () => {
     // Define what happens on successful data submission
     XHR.addEventListener("load", (event) => {
       // alert(event.target.responseText);
-      askhawaiiText.textContent = event.target.responseText;
+      console.log(event.target);
+      // askhawaiiText.textContent = event.target.result;
+      handleResponse(event.target.responseText);
       hideSpinner();
     });
 
@@ -47,12 +50,20 @@ window.addEventListener("load", () => {
   }
 
   function hideSpinner() {
-    console.log("> hidding spinner");
+    console.log("> hidding spinner 7");
     var spinner = document.getElementById("spinner");
     spinner.hidden = true;
     var formResponse = document.getElementById("form-response");
     formResponse.hidden = false;
-}
+  }
+
+  function handleResponse(responseText) {
+    const json = JSON.parse(responseText);
+    // console.log(">json: " + json);
+    // console.log(">respuesta: " + json.result);
+    askhawaiiText.textContent = json.result;
+    answerQuestion.textContent = askhawaiiQuestion.value;
+  }
 });
 
 
