@@ -88,7 +88,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
 // }
 
 function generatePrompt(question) {
-    return `The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
+    return `The following is a question made to an AI assistant. The assistant is friendly, concise, informative. The assistant answers are written at a 14 years old level.
     
     Human: ${question}
     AI:`;

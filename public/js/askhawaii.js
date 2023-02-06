@@ -63,6 +63,7 @@ window.addEventListener("load", () => {
     // console.log(">respuesta: " + json.result);
     askhawaiiText.textContent = json.result;
     answerQuestion.textContent = askhawaiiQuestion.value;
+    //rafa: these two values must be stored into firebase 
   }
 });
 
