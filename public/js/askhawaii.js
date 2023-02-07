@@ -63,8 +63,53 @@ window.addEventListener("load", () => {
     // console.log(">respuesta: " + json.result);
     askhawaiiText.textContent = json.result;
     answerQuestion.textContent = askhawaiiQuestion.value;
+    
     //rafa: these two values must be stored into firebase 
+    saveInFirestore(askhawaiiQuestion.value, json.result);  
   }
+
+  async function saveInFirestore(question, answer) {
+    console.log(">saving in firestore");
+
+    const XHR = new XMLHttpRequest();
+    XHR.open("POST", "/saveInFirestore?question='" + question +"'&answer='" + answer + "'");
+    XHR.send();
+
+    // await docRef.set({
+    //   question: question,
+    //   answer: answer
+    // });
+  }
+
+
+  // function sendData() {
+  //   const XHR = new XMLHttpRequest();
+
+  //   // Bind the FormData object and the form element
+  //   const FD = new FormData(form);
+
+  //   // Define what happens on successful data submission
+  //   XHR.addEventListener("load", (event) => {
+  //     // alert(event.target.responseText);
+  //     console.log(event.target);
+  //     // askhawaiiText.textContent = event.target.result;
+  //     handleResponse(event.target.responseText);
+  //     hideSpinner();
+  //   });
+
+  //   // Define what happens in case of error
+  //   XHR.addEventListener("error", (event) => {
+  //     alert('Oops! Something went wrong.');
+  //   });
+
+  //   // Set up our request
+  //   XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value +"'");
+
+  //   // The data sent is what the user provided in the form
+  //   XHR.send(FD);
+  // }
+
+
 });
 
 

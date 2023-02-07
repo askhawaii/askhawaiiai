@@ -1,11 +1,22 @@
+// askhawaiiAI dependencies
 const functions = require('firebase-functions');
-
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
+// saveInFirestore dependencies
+const { initializeApp, applicationDefault, cert } = require('../../functions/firebase-admin/app');
+const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+
+initializeApp();
+const db = getFirestore();
+const docRef = db.collection('questions');
+
+//-----------------------
+// askhawaiiAI method
+//-----------------------
 exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
     const questionInput = req.query.text;
     try {
@@ -28,17 +39,6 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
         }
 
         try {
-            // const completion = await openai.createCompletion({
-            //     model: "text-davinci-003",
-            //     prompt: generatePrompt(questionInput),
-            //     temperature: 0,                
-            //     max_tokens: 1500,
-            //     top_p: 1,
-            //     frequency_penalty: 0.0,
-            //     presence_penalty: 0.0,
-            //     stop: ["\n"],
-            // });
-
             const completion = await openai.createCompletion({
                 model: "text-davinci-003",
                 prompt: generatePrompt(questionInput), 
@@ -50,17 +50,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                 stop: [" Human:", " AI:"],
               });
 
-
-
-            // res.status(200).json({ result: completion.data.choices[0].text });
             res.status(200).json({ result: completion.data.choices[0].text });
-            // res.status(200).text({ result: completion.data.choices[0].text });
-
-            // res.status(200).send(`<div>
-            // ${completion.data.choices[0].text})
-            // </div>`);
-
-
         } catch(error) {
             if (error.response) {
                 console.error(error.response.status, error.response.data);
@@ -78,14 +68,6 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
         console.error(error);
     }
 });
-
-// function generatePrompt(question) {
-//     // const capitalizedAnimal = animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-//     return `Answer questions related with any topic.
-  
-//   Question: ${question}
-//   Content:`;
-// }
 
 function generatePrompt(question) {
     return `The following is a question made to an AI assistant. The assistant is friendly, concise, informative. The assistant answers are written at a 14 years old level.
