@@ -25,11 +25,13 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [ {
-      "source": "/askHawaiiAI",
-      "function": "askHawaiiAI",
-      "region": "us-central1"
-    } ]
+    "rewrites": [
+      {
+        "source": "/askHawaiiAI",
+        "function": "askHawaiiAI",
+        "region": "us-central1"
+      }
+    ]
   },
   "storage": {
     "rules": "storage.rules"
