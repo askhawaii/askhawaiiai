@@ -11,6 +11,8 @@
     <link href="./bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./img/favicon.jpeg">
     
+    <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -81,31 +83,102 @@
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>
           </span>
-          <input type="search" id="askhawaii-question" class="form-control" placeholder="Ask anything Hawaii..." aria-label="Ask anything Hawaii..." aria-describedby="basic-addon1" onsubmit="showSpinner()">
+          <input type="search" id="askhawaii-question" class="form-control" placeholder="Ask anything Hawaii..." aria-label="Ask anything Hawaii..." aria-describedby="basic-addon1">
         </div>
 
-        <!-- <div class="form-floating">
-          <input class="form-control" id="askhawaii-question">
-          <label for="askhawaii-question">Please write here your question</label>
+        <!-- menu buttons -->
+        <ul id="menu-buttons" class="nav nav-pills nav-fill">
+          <li class="nav-item">
+            <a id="suggestions-button" class="menu-link active" href="#">Suggestions</a>
+          </li>
+          <li class="nav-item">
+            <a id="questions-button" class="menu-link" href="#">Questions</a>
+          </li>
+          <li class="nav-item">
+            <a id="prepositions-button" class="menu-link" href="#">Prepositions</a>
+          </li>
+          <li class="nav-item">
+            <a id="related-button" class="menu-link" href="#">Related</a>
+          </li>
+        </ul>
+
+        <!-- <div class="btn-group" role="group" aria-label="menu">
+          <button type="button" class="btn btn-secondary" id="suggestions-button">Suggestions</button>
+          <button type="button" class="btn btn-secondary" id="questions-button">Questions</button>
+          <button type="button" class="btn btn-secondary" id="prepositions-button">Prepositions</button>
+          <button type="button" class="btn btn-secondary" id="related-button">Related</button>
         </div> -->
 
-        <!-- <input type="search" class="form-control" id="askhawaii-question" placeholder="best time to visit Hawaii?"> -->
-          <!-- <button id="btnSubmit" class="w-100 btn btn-lg btn-primary" type="submit">Send</button> -->
       </form>
 
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" id="one" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" >
+              hawaii vacation <b>packages</b>
+            </button>
+          </h2>
+          <div id="collapse-one" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" id="two" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Accordion Item #2
+            </button>
+          </h2>
+          <div id="collapse-two" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" id="three" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Accordion Item #3
+            </button>
+          </h2>
+          <div id="collapse-three" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+
+
+        
+
+      </div>
+       
+      
       <div class="form-response" id="form-response" hidden="true">
         <div class="answer">
           <div class="question" name="question" id="question">Here will be the question</div>
-          <div class="textarea" name="askhawaii-text-" id="askhawaii-text" rows="10" visible="false" readonly></div>          
+          <div class="textarea" name="askhawaii-text" id="askhawaii-text" rows="10" visible="false" markdown="1" readonly><md-span></md-span></div>          
         </div>        
-        <div class="ad">Please visit <a href="https://hawaiiblt.com" target="_blank">HawaiiBLT</a></div>
-      </div>
+        <div class="ad">Book your <a href="https://hawaiiblt.com" target="_blank">Hawaii Bucket List Tour</a> 🏝️</div>
 
+        <div class="form-feedback" id="form-feedback">
+          <div class="form-feedback-text" id="form-feedback-text">Would you mind to provide us some feedback?</div>
+          <span>As a </span><input type="text" id="form-feedback-source" name="form-feedback-source" value="" placeholder="trip planner / couple / family / large group /...">
+          <span>I want </span><input type="text" id="form-feedback-expo" name="form-feedback-expo" value="" placeholder="imagine there are no limits & be blunt">
+          <span>So that </span><input type="text" id="form-feedback-desire" name="form-feedback-desire" value="" placeholder="your desired result or perfect scenario">
+          <div class="form-feedback-buttons" id="form-feedback-buttons">
+            <button type="button" class="btn btn-success" id="form-feedback-yes">Submit</button>
+            <button type="button" class="btn btn-danger" id="form-feedback-no">Cancel</button>
+          </div>
+        </div>
+
+      </div>
       <div class="spinner-border text-secondary" role="status" id="spinner" hidden="true">
         <span class="sr-only"></span>
       </div>
-        <!-- <span class="placeholder col-12"></span> -->
-      </div>
+      
+    </div>
       <p id="demo"></p>      
       <script src="./js/askhawaii.js"></script>
     </main>

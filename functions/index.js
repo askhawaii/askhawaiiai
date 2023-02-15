@@ -14,15 +14,6 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-// const cityRef = db.collection('questions').doc('SF');
-// const doc = await cityRef.get();
-// if (!doc.exists) {
-//   console.log('No such document!');
-// } else {
-//   console.log('Document data:', doc.data());
-// }
-
-
 //-----------------------
 // askhawaiiAI method
 //-----------------------
