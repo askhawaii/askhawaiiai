@@ -30,6 +30,11 @@
         "source": "/askHawaiiAI",
         "function": "askHawaiiAI",
         "region": "us-central1"
+      },
+      {
+        "source": "/readPlans",
+        "function": "readPlans",
+        "region": "us-central1"
       }
     ]
   },

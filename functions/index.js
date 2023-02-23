@@ -14,6 +14,24 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+exports.readPlans = functions.https.onRequest(async (req, res) => {
+    console.log("Reading plans from firestore");
+    
+    var planRef = db.collection('plan');
+    var plans = [];
+    planRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            plans.push(doc.data());
+        });
+
+        console.log("plans: " + plans);
+        
+        res.status(200).json({ result: plans });
+        res.end();    
+    });
+});
+
 //-----------------------
 // askhawaiiAI method
 //-----------------------
@@ -65,10 +83,11 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                 });
     
                 res.status(200).json({ result: completion.data.choices[0].text });
+                res.end();
             } catch(error) {
                 if (error.response) {
                     console.error(error.response.status, error.response.data);
-                    res.status(error.response.status).json(error.response.data);
+                    res.status(error.response.status).json(error.response.data);                    
                 } else {
                     console.error(`Error with OpenAI API request: ${error.message}`);
                     res.status(500).json({
@@ -77,6 +96,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                         }
                     });
                 }
+                res.end();
             }
         } catch(error) {
             console.error(error);
@@ -87,11 +107,12 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
       console.log('Document data:', doc.data());
       console.log('Document answer:', doc.data().answer);
       res.status(200).json({ result: doc.data().answer });
+      res.end();
     }
 });
 
 function generatePrompt(question) {
-    return `The following is a question made to an AI assistant. The assistant is friendly, concise, informative. The assistant answers are written at a 14 years old level.
+    return `The following is a question made to an AI assistant. The answers should concern Hawaii islands, so ideally the answers will be made for tourists, visitors, and people willing to know more about Hawaii islands. The assistant is friendly, very informative. The assistant answers are written at a 14 years old level.
     
     Human: ${question}
     AI:`;
