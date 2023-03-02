@@ -35,6 +35,26 @@
         "source": "/readPlans",
         "function": "readPlans",
         "region": "us-central1"
+      },
+      {
+        "source": "/readQuestions",
+        "function": "readQuestions",
+        "region": "us-central1"
+      },
+      {
+        "source": "/readSuggestions",
+        "function": "readSuggestions",
+        "region": "us-central1"
+      },
+      {
+        "source": "/readPrepositions",
+        "function": "readPrepositions",
+        "region": "us-central1"
+      },
+      {
+        "source": "/readRelated",
+        "function": "readRelated",
+        "region": "us-central1"
       }
     ]
   },
@@ -58,7 +78,7 @@
       "port": 5002
     },
     "pubsub": {
-      "port": 8086
+      "port": 8088
     },
     "storage": {
       "port": 9199

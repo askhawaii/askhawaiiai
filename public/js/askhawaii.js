@@ -13,90 +13,392 @@ questionsAccordion.hidden = true;
 prepositionsAccordion.hidden = true;
 relatedAccordion.hidden = true;
 
+// When the user scrolls the page, execute myFunction 
+window.onscroll = function() {myFunction()};
+
+// Get the header
+var header = document.getElementById("myHeader");
+
+// Get the offset position of the navbar
+var sticky = header.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+
+//-----------------//
+
+
 window.addEventListener("load", () => {
 
   // show plan accordion
   showPlan();
 
+  // function to load and show the plan accordion
   function showPlan() {
-
     const planXHR = new XMLHttpRequest();
-
     // Define what happens on successful data submission
     planXHR.addEventListener("load", (event) => {
       const responseText = event.target.responseText;
       const json = JSON.parse(responseText);
       console.log(json);
-
       const jsonResult = json.result;
-      
-      jsonResult.forEach(element => {
-        console.log(element.question);
-      });
-
       // removing plan accordion if it's not empty
       if (planAccordion.childElementCount > 0) {
         while (planAccordion.firstChild) {
           planAccordion.removeChild(planAccordion.firstChild);
         }
       }
-
       jsonResult.forEach(element => {
-
         const question = element.question;
         const answer = element.answer;
         const questionKey = question.replace(/ /g,"_").toLowerCase();
         const answerKey = answer.replace(/ /g,"_").toLowerCase();
-
+        // accordion item
         var accordionItem = document.createElement("div");
         accordionItem.classList.add("accordion-item");
 
+        // accordion header
         var accordionHeader = document.createElement("h2");
         accordionHeader.classList.add("accordion-header");
         accordionHeader.id = "heading-" + questionKey;
-
+        
+        // accordion link
         var accordionLink = document.createElement("a");
         accordionLink.classList.add("accordion-button");
         accordionLink.classList.add("collapsed");
         accordionLink.id = questionKey;
         accordionLink.innerHTML = question;
-
+        accordionLink.setAttribute("display", "inline-block");
         accordionHeader.appendChild(accordionLink);
-
+        
+        // accordion collapse
         var accordionCollapse = document.createElement("div");
         accordionCollapse.classList.add("accordion-collapse");
         accordionCollapse.classList.add("collapse");
         accordionCollapse.id = "collapse-" + questionKey;
         accordionCollapse.setAttribute("aria-labelledby", "heading-" + questionKey);
         accordionCollapse.setAttribute("data-bs-parent", "#planAccordion");
-
+        // accordion body
         var accordionBody = document.createElement("div");
         accordionBody.classList.add("accordion-body");
         accordionBody.id = "response-" + questionKey;
-        accordionBody.innerHTML = answer;
 
-        accordionCollapse.appendChild(accordionBody);
+        var accordionAnswer = document.createElement("div");
+        accordionAnswer.innerHTML = answer;
+        accordionBody.appendChild(accordionAnswer);
+
+        // share button
+        var shareDiv = document.createElement("div");
+        shareDiv.classList.add("shareDiv");
+        shareDiv.classList.add("d-flex");
+        shareDiv.classList.add("justify-content-end");
+        var shareButton = document.createElement("button");
+        shareButton.classList.add("shareButton");
+        shareButton.classList.add("btn");
+        shareButton.classList.add("btn-primary");
+        shareButton.id = "share-" + questionKey;
+        shareButton.setAttribute("data-toggle", "modal");
+        shareButton.setAttribute("data-target", "#exampleModal");
+        shareButton.innerHTML = "Share";
+
+        // share image
+        var shareImage = document.createElement("img");
+        shareImage.classList.add("shareImage");
+        shareImage.src = "/images/share.png";
+        shareImage.alt = "share";
+        shareButton.appendChild(shareImage);
+
+        shareDiv.appendChild(shareButton);
         
+        // appending
+        accordionBody.appendChild(shareDiv);
+        accordionCollapse.appendChild(accordionBody);
         accordionItem.appendChild(accordionHeader);
         accordionItem.appendChild(accordionCollapse);
         planAccordion.appendChild(accordionItem);
-      
       });
-      
       hideAllAcordions();
       planAccordion.hidden = false;
     });
-      
     // Define what happens in case of error
     planXHR.addEventListener("error", (event) => {
       alert('Oops! Something went wrong.');
     });
-
     // Set up our request
     planXHR.open("GET", "/readPlans");
     planXHR.send();
   }
 
+  // function to load and show the suggestions accordion
+  function showSuggestions() {
+    console.log("showing suggestions");
+    const suggestionsXHR = new XMLHttpRequest();
+    // Define what happens on successful data submission
+    suggestionsXHR.addEventListener("load", (event) => {
+      const responseText = event.target.responseText;
+      const json = JSON.parse(responseText);
+      console.log(json);
+      const jsonResult = json.result;
+      // removing suggestions accordion if it's not empty
+      if (suggestionsAccordion.childElementCount > 0) {
+        while (suggestionsAccordion.firstChild) {
+          suggestionsAccordion.removeChild(suggestionsAccordion.firstChild);
+        }
+      }
+      jsonResult.forEach(element => {
+        const question = element.question;
+        const answer = element.answer;
+        const questionKey = question.replace(/ /g,"_").toLowerCase();
+        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        // accordion item
+        var accordionItem = document.createElement("div");
+        accordionItem.classList.add("accordion-item");
+        // accordion header
+        var accordionHeader = document.createElement("h2");
+        accordionHeader.classList.add("accordion-header");
+        accordionHeader.id = "heading-" + questionKey;
+        // accordion link
+        var accordionLink = document.createElement("a");
+        accordionLink.classList.add("accordion-button");
+        accordionLink.classList.add("collapsed");
+        accordionLink.id = questionKey;
+        accordionLink.innerHTML = question;
+        accordionHeader.appendChild(accordionLink);
+        // accordion collapse
+        var accordionCollapse = document.createElement("div");
+        accordionCollapse.classList.add("accordion-collapse");
+        accordionCollapse.classList.add("collapse");
+        accordionCollapse.id = "collapse-" + questionKey;
+        accordionCollapse.setAttribute("aria-labelledby", "heading-" + questionKey);
+        accordionCollapse.setAttribute("data-bs-parent", "#suggestionsAccordion");
+        // accordion body
+        var accordionBody = document.createElement("div");
+        accordionBody.classList.add("accordion-body");
+        accordionBody.id = "response-" + questionKey;
+        accordionBody.innerHTML = answer;
+        // appending
+        accordionCollapse.appendChild(accordionBody);
+        accordionItem.appendChild(accordionHeader);
+        accordionItem.appendChild(accordionCollapse);
+        suggestionsAccordion.appendChild(accordionItem);
+      });
+      hideAllAcordions();
+      suggestionsAccordion.hidden = false;
+    });
+    // Define what happens in case of error
+    suggestionsXHR.addEventListener("error", (event) => {
+      alert('Oops! Something went wrong.');
+    });
+    // Set up our request
+    suggestionsXHR.open("GET", "/readSuggestions");
+    suggestionsXHR.send();
+  }
+
+  // function to load and show the questions accordion
+  function showQuestions() {
+    console.log("showing questions");
+    const questionsXHR = new XMLHttpRequest();
+    // Define what happens on successful data submission
+    questionsXHR.addEventListener("load", (event) => {
+      const responseText = event.target.responseText;
+      const json = JSON.parse(responseText);
+      console.log(json);
+      const jsonResult = json.result;
+      // removing questions accordion if it's not empty
+      if (questionsAccordion.childElementCount > 0) {
+        while (questionsAccordion.firstChild) {
+          questionsAccordion.removeChild(questionsAccordion.firstChild);
+        }
+      }
+      jsonResult.forEach(element => {
+        const question = element.question;
+        const answer = element.answer;
+        const questionKey = question.replace(/ /g,"_").toLowerCase();
+        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        // accordion item
+        var accordionItem = document.createElement("div");
+        accordionItem.classList.add("accordion-item");
+        // accordion header
+        var accordionHeader = document.createElement("h2");
+        accordionHeader.classList.add("accordion-header");
+        accordionHeader.id = "heading-" + questionKey;
+        // accordion link
+        var accordionLink = document.createElement("a");
+        accordionLink.classList.add("accordion-button");
+        accordionLink.classList.add("collapsed");
+        accordionLink.id = questionKey;
+        accordionLink.innerHTML = question;
+        accordionHeader.appendChild(accordionLink);
+        // accordion collapse
+        var accordionCollapse = document.createElement("div");
+        accordionCollapse.classList.add("accordion-collapse");
+        accordionCollapse.classList.add("collapse");
+        accordionCollapse.id = "collapse-" + questionKey;
+        accordionCollapse.setAttribute("aria-labelledby", "heading-" + questionKey);
+        accordionCollapse.setAttribute("data-bs-parent", "#questionsAccordion");
+        // accordion body
+        var accordionBody = document.createElement("div");
+        accordionBody.classList.add("accordion-body");
+        accordionBody.id = "response-" + questionKey;
+        accordionBody.innerHTML = answer;
+        // appending
+        accordionCollapse.appendChild(accordionBody);
+        accordionItem.appendChild(accordionHeader);
+        accordionItem.appendChild(accordionCollapse);
+        questionsAccordion.appendChild(accordionItem);
+      });
+      hideAllAcordions();
+      questionsAccordion.hidden = false;
+    });
+    // Define what happens in case of error
+    questionsXHR.addEventListener("error", (event) => {
+      alert('Oops! Something went wrong.');
+    });
+    // Set up our request
+    questionsXHR.open("GET", "/readQuestions");
+    questionsXHR.send();
+  }
+
+  // function to load and show the prepositions accordion
+  function showPrepositions() {
+    console.log("showing prepositions");
+    const prepositionsXHR = new XMLHttpRequest();
+    // Define what happens on successful data submission
+    prepositionsXHR.addEventListener("load", (event) => {
+      const responseText = event.target.responseText;
+      const json = JSON.parse(responseText);
+      console.log(json);
+      const jsonResult = json.result;
+      // removing questions accordion if it's not empty
+      if (prepositionsAccordion.childElementCount > 0) {
+        while (prepositionsAccordion.firstChild) {
+          prepositionsAccordion.removeChild(prepositionsAccordion.firstChild);
+        }
+      }
+      jsonResult.forEach(element => {
+        const question = element.question;
+        const answer = element.answer;
+        const questionKey = question.replace(/ /g,"_").toLowerCase();
+        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        // accordion item
+        var accordionItem = document.createElement("div");
+        accordionItem.classList.add("accordion-item");
+        // accordion header
+        var accordionHeader = document.createElement("h2");
+        accordionHeader.classList.add("accordion-header");
+        accordionHeader.id = "heading-" + questionKey;
+        // accordion link
+        var accordionLink = document.createElement("a");
+        accordionLink.classList.add("accordion-button");
+        accordionLink.classList.add("collapsed");
+        accordionLink.id = questionKey;
+        accordionLink.innerHTML = question;
+        accordionHeader.appendChild(accordionLink);
+        // accordion collapse
+        var accordionCollapse = document.createElement("div");
+        accordionCollapse.classList.add("accordion-collapse");
+        accordionCollapse.classList.add("collapse");
+        accordionCollapse.id = "collapse-" + questionKey;
+        accordionCollapse.setAttribute("aria-labelledby", "heading-" + questionKey);
+        accordionCollapse.setAttribute("data-bs-parent", "#prepositionsAccordion");
+        // accordion body
+        var accordionBody = document.createElement("div");
+        accordionBody.classList.add("accordion-body");
+        accordionBody.id = "response-" + questionKey;
+        accordionBody.innerHTML = answer;
+        // appending
+        accordionCollapse.appendChild(accordionBody);
+        accordionItem.appendChild(accordionHeader);
+        accordionItem.appendChild(accordionCollapse);
+        prepositionsAccordion.appendChild(accordionItem);
+      });
+      hideAllAcordions();
+      prepositionsAccordion.hidden = false;
+    });
+    // Define what happens in case of error
+    prepositionsXHR.addEventListener("error", (event) => {
+      alert('Oops! Something went wrong.');
+    });
+    // Set up our request
+    prepositionsXHR.open("GET", "/readPrepositions");
+    prepositionsXHR.send();
+  }
+
+  // function to load and show the related accordion
+  function showRelated() {
+    console.log("showing related");
+    const relatedXHR = new XMLHttpRequest();
+    // Define what happens on successful data submission
+    relatedXHR.addEventListener("load", (event) => {
+      const responseText = event.target.responseText;
+      const json = JSON.parse(responseText);
+      console.log(json);
+      const jsonResult = json.result;
+      // removing questions accordion if it's not empty
+      if (relatedAccordion.childElementCount > 0) {
+        while (relatedAccordion.firstChild) {
+          relatedAccordion.removeChild(relatedAccordion.firstChild);
+        }
+      }
+      jsonResult.forEach(element => {
+        const question = element.question;
+        const answer = element.answer;
+        const questionKey = question.replace(/ /g,"_").toLowerCase();
+        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        // accordion item
+        var accordionItem = document.createElement("div");
+        accordionItem.classList.add("accordion-item");
+        // accordion header
+        var accordionHeader = document.createElement("h2");
+        accordionHeader.classList.add("accordion-header");
+        accordionHeader.id = "heading-" + questionKey;
+        // accordion link
+        var accordionLink = document.createElement("a");
+        accordionLink.classList.add("accordion-button");
+        accordionLink.classList.add("collapsed");
+        accordionLink.id = questionKey;
+        accordionLink.innerHTML = question;
+        accordionHeader.appendChild(accordionLink);
+        // accordion collapse
+        var accordionCollapse = document.createElement("div");
+        accordionCollapse.classList.add("accordion-collapse");
+        accordionCollapse.classList.add("collapse");
+        accordionCollapse.id = "collapse-" + questionKey;
+        accordionCollapse.setAttribute("aria-labelledby", "heading-" + questionKey);
+        accordionCollapse.setAttribute("data-bs-parent", "#relatedAccordion");
+        // accordion body
+        var accordionBody = document.createElement("div");
+        accordionBody.classList.add("accordion-body");
+        accordionBody.id = "response-" + questionKey;
+        accordionBody.innerHTML = answer;
+        // appending
+        accordionCollapse.appendChild(accordionBody);
+        accordionItem.appendChild(accordionHeader);
+        accordionItem.appendChild(accordionCollapse);
+        relatedAccordion.appendChild(accordionItem);
+      });
+      hideAllAcordions();
+      relatedAccordion.hidden = false;
+    });
+    // Define what happens in case of error
+    relatedXHR.addEventListener("error", (event) => {
+      alert('Oops! Something went wrong.');
+    });
+    // Set up our request
+    relatedXHR.open("GET", "/readRelated");
+    relatedXHR.send();
+  }
+
+//================================================================================
+  
+
+  // send data on custom question
   function sendData(manually, identifier) {
 
     const XHR = new XMLHttpRequest();
@@ -192,8 +494,13 @@ window.addEventListener("load", () => {
 
   function tooglingCollapsedDiv(event) {
     event.preventDefault();
-    var collapseDiv = document.getElementById("collapse-" + event.target.id);
-    collapseDiv.classList.toggle("show");
+    if(event.target.classList.contains("accordion-button")) {
+      var collapseDiv = document.getElementById("collapse-" + event.target.id);
+      collapseDiv.classList.toggle("show");
+    } else {
+      var exampleModal = document.getElementById("exampleModal");
+      exampleModal.classList.toggle("show");
+    }    
   }
 
   //--------------------------------------------------------------------------------
@@ -208,11 +515,13 @@ window.addEventListener("load", () => {
 
   menuButtons.addEventListener("click", (event) => {  
     event.preventDefault();
+    console.log("lo del click");
     switch (event.target.id) {
       case "plan-button":
         showPlan();
         break;
       case "suggestions-button":
+        console.log("suggestions-button clicked");
         showSuggestions();
         break;
       case "questions-button":      
@@ -288,43 +597,4 @@ window.addEventListener("load", () => {
     var relatedAccordion = document.getElementById("relatedAccordion");
     relatedAccordion.hidden = true;
   }  
-
-  function showSuggestions() {  
-    hideAllAcordions();
-    var suggestionsAccordion = document.getElementById("suggestionsAccordion");
-    suggestionsAccordion.hidden = false;
-  }
-
-  function showQuestions() {  
-    hideAllAcordions();
-    var questionsAccordion = document.getElementById("questionsAccordion");
-    questionsAccordion.hidden = false;
-  }
-
-  function showPrepositions() {  
-    hideAllAcordions();
-    var prepositionsAccordion = document.getElementById("prepositionsAccordion");
-    prepositionsAccordion.hidden = false;
-  }
-
-  function showRelated() {  
-    hideAllAcordions();
-    var relatedAccordion = document.getElementById("relatedAccordion");
-    relatedAccordion.hidden = false;
-  }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

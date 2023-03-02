@@ -72,80 +72,158 @@
 
     <!-- <main class="form-signin w-100 m-auto position-absolute top-0 start-50 translate-middle-x"> -->
     <main class="form-signin w-100 m-auto position-absolute top-0 start-50 translate-middle-x">
-      <form id="askHawaiiForm">
-        <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
-        <!-- <h1 class="h3 mb-3 fw-normal">Ask Hawaii</h1> -->
-        <h1>Ask Hawaii AI</h1>
-        
-        <div class="input-group">
-          <span class="input-group-text">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
-          </span>
-          <input type="search" id="askhawaii-question" class="form-control" placeholder="Ask Hawaii vacation questions..." aria-label="Ask Hawaii vacation questions..." aria-describedby="basic-addon1">
-        </div>
+      
+      <div class="header" id="myHeader">
+        <form id="askHawaiiForm">
 
-        <div class="form-response" id="form-response" hidden="true">
-          <div class="answer">
-            <div class="question" name="question" id="question">Here will be the question</div>
-            <div class="textarea" name="askhawaii-text" id="askhawaii-text" rows="10" visible="false" markdown="1" readonly><md-span></md-span></div>          
-          </div>        
-          <div class="ad">Book your <a href="https://hawaiiblt.com" target="_blank">Hawaii Bucket List Tour</a> 🏝️</div>
-  
-          <!-- form feedback -->
-          <!-- <div class="form-feedback" id="form-feedback">
-            <div class="form-feedback-text" id="form-feedback-text">Would you mind to provide us some feedback?</div>
-            <span>As a </span><input type="text" id="form-feedback-source" name="form-feedback-source" value="" placeholder="trip planner / couple / family / large group /...">
-            <span>I want </span><input type="text" id="form-feedback-expo" name="form-feedback-expo" value="" placeholder="imagine there are no limits & be blunt">
-            <span>So that </span><input type="text" id="form-feedback-desire" name="form-feedback-desire" value="" placeholder="your desired result or perfect scenario">
-            <div class="form-feedback-buttons" id="form-feedback-buttons">
-              <button type="button" class="btn btn-success" id="form-feedback-yes">Submit</button>
-              <button type="button" class="btn btn-danger" id="form-feedback-no">Cancel</button>
+          <h1>Ask Hawaii AI</h1>        
+          <div class="input-group">
+            <span class="input-group-text">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+            </span>
+            <input type="search" id="askhawaii-question" class="form-control" placeholder="Ask Hawaii vacation questions..." aria-label="Ask Hawaii vacation questions..." aria-describedby="basic-addon1">
+          </div>
+
+          <div class="form-response" id="form-response" hidden="true">
+            <div class="answer">
+              <div class="question" name="question" id="question">Here will be the question</div>
+              <div class="textarea" name="askhawaii-text" id="askhawaii-text" rows="10" visible="false" markdown="1" readonly><md-span></md-span></div>          
+            </div>        
+            <div class="ad">Book your <a href="https://hawaiiblt.com" target="_blank">Hawaii Bucket List Tour</a> 🏝️</div>
+    
+            <!-- form feedback -->
+            <!-- <div class="form-feedback" id="form-feedback">
+              <div class="form-feedback-text" id="form-feedback-text">Would you mind to provide us some feedback?</div>
+              <span>As a </span><input type="text" id="form-feedback-source" name="form-feedback-source" value="" placeholder="trip planner / couple / family / large group /...">
+              <span>I want </span><input type="text" id="form-feedback-expo" name="form-feedback-expo" value="" placeholder="imagine there are no limits & be blunt">
+              <span>So that </span><input type="text" id="form-feedback-desire" name="form-feedback-desire" value="" placeholder="your desired result or perfect scenario">
+              <div class="form-feedback-buttons" id="form-feedback-buttons">
+                <button type="button" class="btn btn-success" id="form-feedback-yes">Submit</button>
+                <button type="button" class="btn btn-danger" id="form-feedback-no">Cancel</button>
+              </div>
+            </div> -->
+    
+          </div>
+          <div class="spinner-border text-secondary" role="status" id="spinner" hidden="true">
+            <span class="sr-only"></span>
+          </div>
+        
+          <!-- menu buttons -->
+          <ul id="menu-buttons" class="nav nav-pills nav-fill">
+            <li class="nav-item">
+              <span id="plan-button" class="menu-link active" href="#">Plan your Hawaii Vacation</span>
+            </li>          
+            <li class="nav-item">
+              <span id="questions-button" class="menu-link" href="#"> </span>
+            </li>            
+            <li class="nav-item">
+              <span id="suggestions-button" class="menu-link" href="#"> </span>
+            </li>
+            <li class="nav-item">
+              <span id="prepositions-button" class="menu-link" href="#"> </span>
+            </li>
+            <li class="nav-item">
+              <span id="related-button" class="menu-link" href="#"> </span>
+            </li>
+          </ul>
+
+        
+        
+        </form>
+      </div>  
+
+      <div class="accordionContent">
+
+        <!-- planAccordion -->
+        <div class="accordion" id="planAccordion"></div>
+
+        <!-- suggestionsAccordion -->
+        <div class="accordion" id="suggestionsAccordion" hidden></div>
+          
+        <!-- questionsAccordion -->
+        <div class="accordion" id="questionsAccordion" hidden></div>
+          
+        <!-- prepositionsAccordion -->
+        <div class="accordion" id="prepositionsAccordion" hidden></div>
+          
+        <!-- related accordion -->
+        <div class="accordion" id="relatedAccordion"></div>
+            
+        <p id="demo"></p>      
+
+      </div>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content col-12">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Share</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="icon-container1 d-flex">
+                            <div class="smd">
+                                <i class=" img-thumbnail fab fa-twitter fa-2x"
+                                    style="color:#4c6ef5;background-color: aliceblue"></i>
+                                <p>Twitter</p>
+                            </div>
+                            <div class="smd">
+                                <i class="img-thumbnail fab fa-facebook fa-2x"
+                                    style="color: #3b5998;background-color: #eceff5;"></i>
+                                <p>Facebook</p>
+                            </div>
+                            <div class="smd">
+                                <i class="img-thumbnail fab fa-reddit-alien fa-2x"
+                                    style="color: #FF5700;background-color: #fdd9ce;"></i>
+                                <p>Reddit</p>
+                            </div>
+                            <div class="smd">
+                                <i class="img-thumbnail fab fa-discord fa-2x "
+                                    style="color: #738ADB;background-color: #d8d8d8;"></i>
+                                <p>Discord</p>
+                            </div>
+                        </div>
+                        <div class="icon-container2 d-flex">
+                            <div class="smd">
+                                <i class="img-thumbnail fab fa-whatsapp fa-2x"
+                                    style="color:  #25D366;background-color: #cef5dc;"></i>
+                                <p>Whatsapp</p>
+                            </div>
+                            <div class="smd">
+                                <i class="img-thumbnail fab fa-facebook-messenger fa-2x"
+                                    style="color: #3b5998;background-color: #eceff5;"></i>
+                                <p>Messenger</p>
+                            </div>
+                            <div class="smd">
+                                <i class="img-thumbnail fab fa-telegram fa-2x"
+                                    style="color:  #4c6ef5;background-color: aliceblue"></i>
+                                <p>Telegram</p>
+                            </div>
+                            <div class="smd">
+                                <i class="img-thumbnail fab fa-weixin fa-2x"
+                                    style="color: #7bb32e;background-color: #daf1bc;"></i>
+                                <p>WeChat</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <label style="font-weight: 600">Page Link <span class="message"></span></label><br />
+                        <div class="row">
+                            <input class="col-10 ur" type="url" placeholder="https://www.arcardio.app/acodyseyy"
+                                id="myInput" aria-describedby="inputGroup-sizing-default" style="height: 40px;">
+                            <button class="cpy" onclick="myFunction()"><i class="far fa-clone"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div> -->
-  
         </div>
-        <div class="spinner-border text-secondary" role="status" id="spinner" hidden="true">
-          <span class="sr-only"></span>
-        </div>      
-        
-        <!-- menu buttons -->
-        <ul id="menu-buttons" class="nav nav-pills nav-fill">
-          <li class="nav-item">
-            <a id="plan-button" class="menu-link active" href="#">Plan</a>
-          </li>          
-          <li class="nav-item">
-            <a id="questions-button" class="menu-link" href="#">Questions</a>
-          </li>
-          <li class="nav-item">
-            <a id="suggestions-button" class="menu-link" href="#">Suggestions</a>
-          </li>
-          <li class="nav-item">
-            <a id="prepositions-button" class="menu-link" href="#">Prepositions</a>
-          </li>
-          <li class="nav-item">
-            <a id="related-button" class="menu-link" href="#">Related</a>
-          </li>
-        </ul>
-      </form>
 
-      <!-- planAccordion -->
-      <div class="accordion" id="planAccordion"></div>
 
-      <!-- suggestionsAccordion -->
-      <div class="accordion" id="suggestionsAccordion" hidden></div>
-        
-      <!-- questionsAccordion -->
-      <div class="accordion" id="questionsAccordion" hidden></div>
-        
-      <!-- prepositionsAccordion -->
-      <div class="accordion" id="prepositionsAccordion" hidden></div>
-        
-      <!-- related accordion -->
-      <div class="accordion" id="relatedAccordion"></div>
-           
-      <p id="demo"></p>      
       <script src="./js/askhawaii.js"></script>
     </main>
   </body>

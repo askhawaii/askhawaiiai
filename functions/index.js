@@ -14,9 +14,11 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
+//-----------------------
+// readPlans method
+//-----------------------
 exports.readPlans = functions.https.onRequest(async (req, res) => {
     console.log("Reading plans from firestore");
-    
     var planRef = db.collection('plan');
     var plans = [];
     planRef.get().then((querySnapshot) => {
@@ -24,11 +26,76 @@ exports.readPlans = functions.https.onRequest(async (req, res) => {
             console.log(doc.id, " => ", doc.data());
             plans.push(doc.data());
         });
-
-        console.log("plans: " + plans);
-        
         res.status(200).json({ result: plans });
         res.end();    
+    });
+});
+
+//-----------------------
+// readQuestions method
+//-----------------------
+exports.readQuestions = functions.https.onRequest(async (req, res) => {
+    console.log("Reading questions from firestore");
+    var questionRef = db.collection('question');
+    var questions = [];
+    questionRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            questions.push(doc.data());
+        });
+        res.status(200).json({ result: questions });
+        res.end();
+    });
+});
+
+//-------------------------
+// readSuggestions method
+//-------------------------
+exports.readSuggestions = functions.https.onRequest(async (req, res) => {
+    console.log("Reading suggestions from firestore");
+    var suggestionRef = db.collection('suggestion');
+    var suggestions = [];
+    suggestionRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            suggestions.push(doc.data());
+        });
+        res.status(200).json({ result: suggestions });
+        res.end();
+    });
+});
+
+//---------------------------
+// readPrepositions method
+//---------------------------
+exports.readPrepositions = functions.https.onRequest(async (req, res) => {
+    console.log("Reading prepositions from firestore");
+    var prepositionRef = db.collection('preposition');
+    var prepositions = [];
+    prepositionRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            prepositions.push(doc.data());
+        });
+        res.status(200).json({ result: prepositions });
+        res.end();
+    });
+});
+
+//---------------------------
+// readRelated method
+//---------------------------
+exports.readRelated = functions.https.onRequest(async (req, res) => {
+    console.log("Reading related from firestore");
+    var relatedRef = db.collection('related');
+    var related = [];
+    relatedRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            related.push(doc.data());
+        });
+        res.status(200).json({ result: related });
+        res.end();
     });
 });
 
