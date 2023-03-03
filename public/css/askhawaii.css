@@ -240,9 +240,31 @@ ul {
 }
 
 .shareButton {
+  color: royalblue;
+  border: none;
+  background-color: white;
+  padding: 0px;
+}
+
+.shareButton:hover {
   color: blue;
   border: none;
   background-color: white;
+  padding: 0px;
+}
+
+.shareDiv {
+  align-items: center;
+  margin: -40px;
+}
+
+.shareDiv img {
+  width: 24px;
+  height: 24px;
+  color: blue;
+  accent-color: blue;
+  margin-right: -36px;
+  filter: opacity(0.5) drop-shadow(0 0 0 blue);
 }
 
 /* .shareDiv {

@@ -93,11 +93,19 @@ window.addEventListener("load", () => {
         accordionAnswer.innerHTML = answer;
         accordionBody.appendChild(accordionAnswer);
 
+        // share image
+        var shareImage = document.createElement("img");
+        shareImage.classList.add("shareImage");
+        shareImage.src = "/img/forward.png";
+        shareImage.alt = "share";
+        
         // share button
         var shareDiv = document.createElement("div");
         shareDiv.classList.add("shareDiv");
         shareDiv.classList.add("d-flex");
         shareDiv.classList.add("justify-content-end");
+        shareDiv.appendChild(shareImage);
+
         var shareButton = document.createElement("button");
         shareButton.classList.add("shareButton");
         shareButton.classList.add("btn");
@@ -106,14 +114,6 @@ window.addEventListener("load", () => {
         shareButton.setAttribute("data-toggle", "modal");
         shareButton.setAttribute("data-target", "#exampleModal");
         shareButton.innerHTML = "Share";
-
-        // share image
-        var shareImage = document.createElement("img");
-        shareImage.classList.add("shareImage");
-        shareImage.src = "/images/share.png";
-        shareImage.alt = "share";
-        shareButton.appendChild(shareImage);
-
         shareDiv.appendChild(shareButton);
         
         // appending
