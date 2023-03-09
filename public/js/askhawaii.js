@@ -98,7 +98,28 @@ window.addEventListener("load", () => {
         shareImage.classList.add("shareImage");
         shareImage.src = "/img/forward.png";
         shareImage.alt = "share";
-        
+
+        // book image
+        var bookImage = document.createElement("img");
+        bookImage.classList.add("bookImage");
+        bookImage.src = "/img/bookHBLT.png";
+        bookImage.alt = "book";
+
+        // book link
+        var bookLink = document.createElement("a");
+        bookLink.classList.add("book-link");
+        bookLink.href = "https://hawaiiblt.com";
+        bookLink.target = "_blank";
+        bookLink.id = "book-" + questionKey;
+        bookLink.appendChild(bookImage);
+
+        // book button
+        var bookDiv = document.createElement("div");
+        bookDiv.classList.add("bookDiv");
+        bookDiv.classList.add("d-flex");
+        bookDiv.classList.add("justify-content-end");
+        bookDiv.appendChild(bookLink);
+
         // share button
         var shareDiv = document.createElement("div");
         shareDiv.classList.add("shareDiv");
@@ -108,8 +129,6 @@ window.addEventListener("load", () => {
 
         var shareButton = document.createElement("button");
         shareButton.classList.add("shareButton");
-        shareButton.classList.add("btn");
-        shareButton.classList.add("btn-primary");
         shareButton.id = "share-" + questionKey;
         shareButton.setAttribute("data-toggle", "modal");
         shareButton.setAttribute("data-target", "#exampleModal");
@@ -118,6 +137,7 @@ window.addEventListener("load", () => {
         
         // appending
         accordionBody.appendChild(shareDiv);
+        accordionBody.appendChild(bookDiv);
         accordionCollapse.appendChild(accordionBody);
         accordionItem.appendChild(accordionHeader);
         accordionItem.appendChild(accordionCollapse);
@@ -494,10 +514,20 @@ window.addEventListener("load", () => {
 
   function tooglingCollapsedDiv(event) {
     event.preventDefault();
+    console.log("> step1: tooglingCollapsedDiv")
     if(event.target.classList.contains("accordion-button")) {
+      console.log("> step2: accordion-button clicked");
       var collapseDiv = document.getElementById("collapse-" + event.target.id);
       collapseDiv.classList.toggle("show");
-    } else {
+    } 
+    else if(event.target.classList.contains("bookImage")) {
+      console.log("> link - deberia funcionar");
+      var href = "https://hawaiiblt.com";
+      window.open(href, '_blank');
+    }
+    else {
+      console.log(event.target.classList);
+      console.log("> step3. not accordion-button - deberia funcionar");
       var exampleModal = document.getElementById("exampleModal");
       exampleModal.classList.toggle("show");
     }    
