@@ -36,19 +36,16 @@ function myFunction() {
 
 window.addEventListener("load", () => {
 
-  // show plan accordion
   showPlan();
 
-  // function to load and show the plan accordion
   function showPlan() {
     const planXHR = new XMLHttpRequest();
-    // Define what happens on successful data submission
     planXHR.addEventListener("load", (event) => {
       const responseText = event.target.responseText;
       const json = JSON.parse(responseText);
       console.log(json);
       const jsonResult = json.result;
-      // removing plan accordion if it's not empty
+
       if (planAccordion.childElementCount > 0) {
         while (planAccordion.firstChild) {
           planAccordion.removeChild(planAccordion.firstChild);
@@ -128,16 +125,17 @@ window.addEventListener("load", () => {
         shareDiv.appendChild(shareImage);
 
         var shareButton = document.createElement("button");
+        shareButton.type = "button";
         shareButton.classList.add("shareButton");
         shareButton.id = "share-" + questionKey;
-        shareButton.setAttribute("data-toggle", "modal");
-        shareButton.setAttribute("data-target", "#exampleModal");
+        shareButton.setAttribute("data-bs-toggle", "modal");
+        shareButton.setAttribute("data-bs-target", "#exampleModal");
         shareButton.innerHTML = "Share";
         shareDiv.appendChild(shareButton);
         
         // appending
-        accordionBody.appendChild(shareDiv);
-        accordionBody.appendChild(bookDiv);
+        // accordionBody.appendChild(shareDiv);
+        // accordionBody.appendChild(bookDiv);
         accordionCollapse.appendChild(accordionBody);
         accordionItem.appendChild(accordionHeader);
         accordionItem.appendChild(accordionCollapse);

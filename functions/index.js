@@ -132,6 +132,40 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
             }
     
             try {
+
+
+                // const response = await openai.createChatCompletion({
+                //     model: "gpt-3.5-turbo-0301",
+
+                //     messages: [
+                //         {
+                //             "content": "Human: Hello, how are you?",
+                //             "created": 1614691200,
+                //             "id": "01F1ZQXQXZJYQXZJYQXZJYQXZJ",
+                //             "personality": [],
+                //             "recipient_id": "openai",
+                //             "sender_id": "human"
+                //         },
+                //         {
+                //             "content": "AI: I am doing well, how about you?",
+                //             "created": 1614691200,
+                //             "id": "01F1ZQXQXZJYQXZJYQXZJYQXZJ",
+                //             "personality": [],
+                //             "recipient_id": "human",
+                //             "sender_id": "openai"
+                //         }],
+                //     prompt: questionInput,
+                //     temperature: 0.9,
+                //     max_tokens: 1500,
+                //     top_p: 1,
+                //     frequency_penalty: 0.0,
+                //     presence_penalty: 0.6,
+                //     stop: [" Human:", " AI:"],
+                // });
+
+                // res.status(200).json({ result: response.data.choices[0].message.content });
+                // res.end();
+
                 const completion = await openai.createCompletion({
                     model: "text-davinci-003",
                     prompt: generatePrompt(questionInput), 
