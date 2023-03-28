@@ -9,6 +9,8 @@ admin.initializeApp();
 const db = getFirestore();
 
 const { Configuration, OpenAIApi } = require("openai");
+// require("dotenv").config();
+
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -133,57 +135,41 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
     
             try {
 
-
-                // const response = await openai.createChatCompletion({
-                //     model: "gpt-3.5-turbo-0301",
-
-                //     messages: [
-                //         {
-                //             "content": "Human: Hello, how are you?",
-                //             "created": 1614691200,
-                //             "id": "01F1ZQXQXZJYQXZJYQXZJYQXZJ",
-                //             "personality": [],
-                //             "recipient_id": "openai",
-                //             "sender_id": "human"
-                //         },
-                //         {
-                //             "content": "AI: I am doing well, how about you?",
-                //             "created": 1614691200,
-                //             "id": "01F1ZQXQXZJYQXZJYQXZJYQXZJ",
-                //             "personality": [],
-                //             "recipient_id": "human",
-                //             "sender_id": "openai"
-                //         }],
-                //     prompt: questionInput,
+                // calling openai
+                // const completion = await openai.createChatCompletion(
+                //     model = "gpt-3.5-turbo",
+                //     messages = [
+                //         { "role": "user", "content": "Hello Hawaiian assistant, how are you?" }
+                //     ]
+                // );
+                // const completion = await openai.createChatCompletion({
+                //     model: "gpt-4",
+                //     messages: [{ role: "user", content: "Hello world" }],
+                // });
+                
+                const completion = await openai.createChatCompletion({
+                    model: "gpt-4",
+                    messages: [{ role: "user", content: generatePrompt(questionInput) }],
+                });
+                console.log(completion.data.choices[0].message.content);
+                // const completion = await openai.createCompletion({
+                //     model: "text-davinci-003",
+                //     prompt: generatePrompt(questionInput), 
                 //     temperature: 0.9,
                 //     max_tokens: 1500,
                 //     top_p: 1,
                 //     frequency_penalty: 0.0,
                 //     presence_penalty: 0.6,
                 //     stop: [" Human:", " AI:"],
-                // });
-
-                // res.status(200).json({ result: response.data.choices[0].message.content });
-                // res.end();
-
-                const completion = await openai.createCompletion({
-                    model: "text-davinci-003",
-                    prompt: generatePrompt(questionInput), 
-                    temperature: 0.9,
-                    max_tokens: 1500,
-                    top_p: 1,
-                    frequency_penalty: 0.0,
-                    presence_penalty: 0.6,
-                    stop: [" Human:", " AI:"],
-                  });
+                //   });
     
                 // saving in firebase
                 const questionsRef = db.collection('questions');
                 await questionsRef.doc(questionKey).set({
-                    question: questionInput, answer: completion.data.choices[0].text
+                    question: questionInput, answer: completion.data.choices[0].message.content
                 });
     
-                res.status(200).json({ result: completion.data.choices[0].text });
+                res.status(200).json({ result: completion.data.choices[0].message.content });
                 res.end();
             } catch(error) {
                 if (error.response) {
