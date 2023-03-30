@@ -8,7 +8,7 @@ body {
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: white;
+  background-color: #f5f5f5;
 }
 
 .form-signin .form-floating:focus-within {
@@ -16,9 +16,15 @@ body {
 }
 
 .form-control:focus {
-  border-color: white;
+  border-color: whitesmoke;
   border-style: hidden;
 }
+
+/* .form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+} */
 
 .input-group {
   height: 48px;
@@ -27,16 +33,17 @@ body {
   margin-bottom: 20px;
   margin-left: 16px;
   /* margin-right: 100px; */
+  max-width: 92%;
 }
 
 .input-group .input-group-text {
   border-radius: 24px;
-  background-color: white;
+  background-color: lightgray;
 }
 
 .input-group .form-control {
   border-radius: 24px;
-  background-color: white;
+  background-color: lightgray;
   border-left: 0px;
   /* border-color: lightgray; */
 }
@@ -51,15 +58,15 @@ body {
 }
 
 .answer {
-  /* max-width: 550px;*/
+  /* max-width: 550px; rafa */
   padding: 20px;
   margin-top: 30px;
   border-radius: 24px;
   background-color: white;
-  border-color: whitesmoke;
+  border-color: lightgray;
   text-align: left;
-  max-width: 420px;
-  margin: 20px auto;
+  margin-left: 16px;
+  width: 92%;
   /* visibility: hidden; */
 }
 
@@ -74,9 +81,9 @@ body {
 }
 
 h1 {
-  margin-top: 20px;
-  font-size: 28pt;
   font-weight: 700;
+  text-align: left;
+  margin-bottom: 12px;
 }
 
 .form-feedback {
@@ -108,7 +115,7 @@ ul {
   /* color: rgb(73, 100, 100); */
   color: black;
   text-decoration: none;
-  background-color: white;
+  background-color: whitesmoke;
   padding-left: 6px;
   padding-right: 3px;
   padding-bottom: 9px;
@@ -118,8 +125,8 @@ ul {
 /* .nav-item a:hover {
   color: black;
   /* border-bottom: 3px solid #007bff; */
-  /* border-bottom: 4px solid black; */ 
-/* } */
+  /* border-bottom: 4px solid black; */
+} */
 
 .nav-item .active {
   color: black;
@@ -156,10 +163,10 @@ ul {
 /* Style the header */
 .header {
   /* padding: 10px 16px; */
-  background: white;
-  /* position: sticky; */
-  /* top: 0;
-  z-index: 1; */
+  background: whitesmoke;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 /* .header {
@@ -186,7 +193,6 @@ ul {
 .accordion-content {
   position: absolute;
   z-index: -1;
-  visibility: hidden;
 }
 
 /* share modal */
@@ -319,17 +325,18 @@ button:focus {
 }
 
 .main {
-  max-width: 360px;  
-  margin: 20px auto;
+  width: 92%;  
+  margin: 50px auto;
 }
 
 .has-search .form-control {
   padding-left: 2.375rem;
   border-radius: 24px;
-  background-color: whitesmoke;
+  background-color: lightgray;
   height: 48px;
   margin-top: 20px;
   margin-bottom: 20px;
+  max-width: 100%;
 }
 
 .has-search .form-control-feedback {
@@ -351,10 +358,4 @@ button:focus {
 
 #askhawaii-question {
   padding-left: 48px;
-  border-color: whitesmoke;
-}
-
-#askhawaii-question:focus {
-  border-color: whitesmoke;
-  box-shadow: none;
 }
