@@ -58,15 +58,19 @@ body {
   background-color: white;
   border-color: whitesmoke;
   text-align: left;
-  max-width: 420px;
+  max-width: 684px;
   margin: 20px auto;
   /* visibility: hidden; */
 }
 
 .answer .question {
-  font-size: large;
+  font-size: 16pt;
   font-weight: 500;
   padding-bottom: 20px;
+}
+
+.answer .textarea {
+  font-size: 13.5pt;
 }
 
 .ad {
