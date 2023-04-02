@@ -148,10 +148,101 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                 // });
                 
                 const completion = await openai.createChatCompletion({
-                    model: "gpt-4",
+                    model: "gpt-3.5-turbo",
                     messages: [{ role: "user", content: generatePrompt(questionInput) }],
+                    temperature: 0.7,
+                    stream: true
+                }, { responseType: 'stream' });
+
+                // for (const chunk of completion) {
+                //     console.log(">>>entra: " + chunk);
+                // }
+
+                // completion.data.on('data', data => console.log(data.toString()))
+
+                var answer = "";
+
+                completion.data.on('data', data => {
+                    const lines = data.toString().split('\n').filter(line => line.trim() !== '');
+                    for (const line of lines) {
+                        const message = line.replace(/^data: /, '');
+                        if (message === '[DONE]') {
+                            console.log(">>>> LLEGA A DONE")
+                            // res.status(200).json({ result: answer });
+                            return; // Stream finished
+                        }
+                        try {
+                            const parsed = JSON.parse(message);
+                            answer += parsed.choices[0].delta.content;
+                            // console.log(parsed.choices[0].delta.content);
+                            console.log(">>>answer: " + answer);
+                            // res.status(200).json({ result: "hola" });
+
+
+                        } catch (error) {
+                            console.error('Could not JSON parse stream message', message, error);
+                        }
+                    }
                 });
-                console.log(completion.data.choices[0].message.content);
+
+                console.log("=====================================");
+
+                // for(const chunk in completion.data) {
+                //     console.log(">>>entra: " + chunk);
+                //     if (chunk == "data") {
+                //         const datos = completion[chunk];
+                //         const arrayDatos = datos.split("\n");
+                        
+                        
+                //         console.log(">>>DATOS: " + datos);
+                //         console.log(">>>ARRAY_DATOS: " + arrayDatos + " - " + arrayDatos.length);
+
+                //         var message = "";
+
+                //         for(var i = 0; i < arrayDatos.length; i++) {
+                //             console.log(">>>ARRAY_DATOS[" + i + "]: " + arrayDatos[i]);
+                //             const arrayDatos2 = arrayDatos[i].split(" ");
+                //             message = message + " hola";
+                //             console.log("->message: " + message);
+
+                //             res.write(message);
+                //             // res.status(200).json({ result: message });
+
+                //         }
+
+                //         // console.log(">>>ARRAY_DATOS[0]: " + arrayDatos[0]);
+                //         // console.log(">>>ARRAY_DATOS[1]: " + arrayDatos[1]);
+                //         // console.log(">>>ARRAY_DATOS[2]: " + arrayDatos[2]);
+                //         // console.log(">>>ARRAY_DATOS[3]: " + arrayDatos[3]); 
+                //         // console.log(">>>ARRAY_DATOS[4]: " + arrayDatos[4]); 
+                //         // // console.log(">>>DELTA: " + arrayDatos[2].
+
+                //         // console.log(">>>ARRAY_DATOS[0]: " + arrayDatos[0]);
+                //         // const chunk_data = chunk["data"];
+                //         // console.log("olrait: " + chunk_data);
+                //         // console.log(">>>entra2: " + chunk.message);
+                //         // console.log(">>>entra3: " + chunk.message.content);
+                //     }
+                //     // const chunk_message = chunk["choices"][0]["delta"];
+                //     // console.log("chunk_message: " + chunk_message);
+                // }
+
+
+
+                // console.log(completion.data.choices[0);
+
+                // var collected_messages = []
+                // for(var chunk in completion) {
+
+                //     var chunk_message = chunk['choices'][0]['delta']
+                //     collected_messages.append(chunk_message)
+                    
+                //     console.log(chunk_message)
+                // }
+
+
+                // console.log(completion.data.choices[0].message.content);
+
                 // const completion = await openai.createCompletion({
                 //     model: "text-davinci-003",
                 //     prompt: generatePrompt(questionInput), 
@@ -164,12 +255,14 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                 //   });
     
                 // saving in firebase
-                const questionsRef = db.collection('questions');
-                await questionsRef.doc(questionKey).set({
-                    question: questionInput, answer: completion.data.choices[0].message.content
-                });
+                // const questionsRef = db.collection('questions');
+                // await questionsRef.doc(questionKey).set({
+                //     // question: questionInput, answer: completion.data.choices[0].message.content
+                //     question: questionInput, answer: "test"
+                // });
     
-                res.status(200).json({ result: completion.data.choices[0].message.content });
+                // res.status(200).json({ result: answer });
+                
                 res.end();
             } catch(error) {
                 if (error.response) {
