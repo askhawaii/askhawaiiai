@@ -136,17 +136,6 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
             try {
 
                 // calling openai
-                // const completion = await openai.createChatCompletion(
-                //     model = "gpt-3.5-turbo",
-                //     messages = [
-                //         { "role": "user", "content": "Hello Hawaiian assistant, how are you?" }
-                //     ]
-                // );
-                // const completion = await openai.createChatCompletion({
-                //     model: "gpt-4",
-                //     messages: [{ role: "user", content: "Hello world" }],
-                // });
-                
                 const completion = await openai.createChatCompletion({
                     model: "gpt-3.5-turbo",
                     messages: [{ role: "user", content: generatePrompt(questionInput) }],
@@ -154,116 +143,44 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                     stream: true
                 }, { responseType: 'stream' });
 
-                // for (const chunk of completion) {
-                //     console.log(">>>entra: " + chunk);
-                // }
-
-                // completion.data.on('data', data => console.log(data.toString()))
-
                 var answer = "";
+                var completedAnswer = "";
 
                 completion.data.on('data', data => {
                     const lines = data.toString().split('\n').filter(line => line.trim() !== '');
                     for (const line of lines) {
                         const message = line.replace(/^data: /, '');
-                        if (message === '[DONE]') {
-                            console.log(">>>> LLEGA A DONE")
-                            // res.status(200).json({ result: answer });
-                            return; // Stream finished
+                        if (message == '[DONE]') {                            
+                            res.end(() => {
+                                console.log("END")
+                                // console.log(">>>completedAnswer: " + completedAnswer);
+                                
+                                //saving in firebase
+                                const questionsRef = db.collection('questions');
+                                questionsRef.doc(questionKey).set({
+                                    question: questionInput, answer: completedAnswer
+                                });
+                            });
                         }
-                        try {
-                            const parsed = JSON.parse(message);
-                            answer += parsed.choices[0].delta.content;
-                            // console.log(parsed.choices[0].delta.content);
-                            console.log(">>>answer: " + answer);
-                            // res.status(200).json({ result: "hola" });
+                        else {
+                            try {
+                                const parsed = JSON.parse(message);
 
-
-                        } catch (error) {
-                            console.error('Could not JSON parse stream message', message, error);
-                        }
+                                const delta = parsed.choices[0].delta.content;
+                                if (typeof delta === 'string' || delta instanceof String) {
+                                    answer = delta;
+                                    completedAnswer += answer;
+                                }
+                                // console.log(">>>answer: " + answer);
+                                
+                                // send answer to client in chunks
+                                res.write(answer);
+                            } catch (error) {
+                                console.error('>Error: Could not JSON parse stream message', message, error);
+                            }
+                        }                        
                     }
                 });
-
-                console.log("=====================================");
-
-                // for(const chunk in completion.data) {
-                //     console.log(">>>entra: " + chunk);
-                //     if (chunk == "data") {
-                //         const datos = completion[chunk];
-                //         const arrayDatos = datos.split("\n");
-                        
-                        
-                //         console.log(">>>DATOS: " + datos);
-                //         console.log(">>>ARRAY_DATOS: " + arrayDatos + " - " + arrayDatos.length);
-
-                //         var message = "";
-
-                //         for(var i = 0; i < arrayDatos.length; i++) {
-                //             console.log(">>>ARRAY_DATOS[" + i + "]: " + arrayDatos[i]);
-                //             const arrayDatos2 = arrayDatos[i].split(" ");
-                //             message = message + " hola";
-                //             console.log("->message: " + message);
-
-                //             res.write(message);
-                //             // res.status(200).json({ result: message });
-
-                //         }
-
-                //         // console.log(">>>ARRAY_DATOS[0]: " + arrayDatos[0]);
-                //         // console.log(">>>ARRAY_DATOS[1]: " + arrayDatos[1]);
-                //         // console.log(">>>ARRAY_DATOS[2]: " + arrayDatos[2]);
-                //         // console.log(">>>ARRAY_DATOS[3]: " + arrayDatos[3]); 
-                //         // console.log(">>>ARRAY_DATOS[4]: " + arrayDatos[4]); 
-                //         // // console.log(">>>DELTA: " + arrayDatos[2].
-
-                //         // console.log(">>>ARRAY_DATOS[0]: " + arrayDatos[0]);
-                //         // const chunk_data = chunk["data"];
-                //         // console.log("olrait: " + chunk_data);
-                //         // console.log(">>>entra2: " + chunk.message);
-                //         // console.log(">>>entra3: " + chunk.message.content);
-                //     }
-                //     // const chunk_message = chunk["choices"][0]["delta"];
-                //     // console.log("chunk_message: " + chunk_message);
-                // }
-
-
-
-                // console.log(completion.data.choices[0);
-
-                // var collected_messages = []
-                // for(var chunk in completion) {
-
-                //     var chunk_message = chunk['choices'][0]['delta']
-                //     collected_messages.append(chunk_message)
-                    
-                //     console.log(chunk_message)
-                // }
-
-
-                // console.log(completion.data.choices[0].message.content);
-
-                // const completion = await openai.createCompletion({
-                //     model: "text-davinci-003",
-                //     prompt: generatePrompt(questionInput), 
-                //     temperature: 0.9,
-                //     max_tokens: 1500,
-                //     top_p: 1,
-                //     frequency_penalty: 0.0,
-                //     presence_penalty: 0.6,
-                //     stop: [" Human:", " AI:"],
-                //   });
-    
-                // saving in firebase
-                // const questionsRef = db.collection('questions');
-                // await questionsRef.doc(questionKey).set({
-                //     // question: questionInput, answer: completion.data.choices[0].message.content
-                //     question: questionInput, answer: "test"
-                // });
-    
-                // res.status(200).json({ result: answer });
-                
-                res.end();
             } catch(error) {
                 if (error.response) {
                     console.error(error.response.status, error.response.data);
@@ -286,7 +203,8 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
     else {
       console.log('Document data:', doc.data());
       console.log('Document answer:', doc.data().answer);
-      res.status(200).json({ result: doc.data().answer });
+    //   res.status(200).json({ result: doc.data().answer });
+      res.write(doc.data().answer);
       res.end();
     }
 });

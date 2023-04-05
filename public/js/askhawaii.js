@@ -423,12 +423,17 @@ window.addEventListener("load", () => {
     const FD = new FormData(form);
 
     // Define what happens on successful data submission
+
+    console.log("-> SEND DATA");
+
     XHR.addEventListener("load", (event) => {
+      console.log("**RAFA**");
       console.log(event.target);
       // question customly written
       if (manually == true) {
-        handleResponse(event.target.responseText);
-        hideSpinner();
+        // handleResponse(event.target.responseText);
+        // hideSpinner();
+        console.log("manually: " + event.target.responseText);
       } 
       // question suggested
       else {
@@ -448,7 +453,37 @@ window.addEventListener("load", () => {
     });
 
     // Set up our request
+
+    // XHR.setRequestHeader('Transfer-Encoding', 'chunked');
+    // XHR.setRequestHeader('X-Content-Type-Options', 'nosniff');
+    // XHR.setRequestHeader('Content-Type', 'text/json');
+
     XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value +"'");
+    
+    XHR.addEventListener("progress", (event) => {
+      console.log("->RAFA: " + event.target.responseText);
+      hideSpinner();
+
+      // const json = JSON.parse(event.target.responseText);
+      // const htmlContent = json.result.replace(/\n/g, "<br>");
+      // const htmlContent = event.target.responseText;
+
+      // var responseDiv = document.getElementById("response-" + identifier);
+      // // if (responseDiv != null) {
+      //   responseDiv.innerText = "hola";
+      // // }
+
+      askhawaiiText.innerText = event.target.responseText;
+      answerQuestion.textContent = askhawaiiQuestion.value;
+    });
+
+    // XHR.onprogress = (event) => { 
+    //   console.log("RAFA GET: " + event.target.responseText);
+    //   hideSpinner();
+      
+    //   askhawaiiText.innerText = event.target.responseText;
+    //   answerQuestion.textContent = askhawaiiQuestion.value;
+    // }
 
     // The data sent is what the user provided in the form
     XHR.send(FD);
@@ -584,10 +619,11 @@ window.addEventListener("load", () => {
   // handling response
   //---------------------------------------
   function handleResponse(responseText) {
-    const json = JSON.parse(responseText);
+    // const json = JSON.parse(responseText);
     console.log(json);
-    const htmlContent = json.result.replace(/\n/g,"<br>");
-    askhawaiiText.innerHTML = htmlContent;
+    // const htmlContent = json.result.replace(/\n/g,"<br>");
+    askhawaiiText.innerHTML = responseText;
+    // askhawaiiText.innerHTML = htmlContent;
     answerQuestion.textContent = askhawaiiQuestion.value;
   }
 

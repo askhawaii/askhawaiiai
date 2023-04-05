@@ -78,9 +78,9 @@ body {
 }
 
 h1 {
-  margin-top: 20px;
-  font-size: 28pt;
-  font-weight: 700;
+  margin-top: 60px;
+  font-size: 32pt;
+  font-weight: 800;
 }
 
 .form-feedback {
@@ -323,7 +323,7 @@ button:focus {
 }
 
 .main {
-  max-width: 360px;  
+  max-width: 400px;  
   margin: 20px auto;
 }
 
@@ -332,7 +332,7 @@ button:focus {
   border-radius: 24px;
   background-color: whitesmoke;
   height: 48px;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 20px;
 }
 
