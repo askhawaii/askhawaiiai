@@ -150,10 +150,19 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                     const lines = data.toString().split('\n').filter(line => line.trim() !== '');
                     for (const line of lines) {
                         const message = line.replace(/^data: /, '');
-                        if (message == '[DONE]') {                            
+                        if (message == '[DONE]') {
+
+                            answer = '\n\n<div class="bookDiv d-flex justify-content-center">' +
+                                                '<a class="book-link" href="https://hawaiiblt.com" target="_blank">Book your Hawaii Bucket' +
+                                                'List Tour 🏝️</a>' +
+                                                '</div>';
+
+                            completedAnswer += answer;
+                            res.write(answer);
+
                             res.end(() => {
-                                console.log("END")
-                                // console.log(">>>completedAnswer: " + completedAnswer);
+                                console.log(">END (GPT-4)");
+                                console.log(">>>completedAnswer: " + completedAnswer);
                                 
                                 //saving in firebase
                                 const questionsRef = db.collection('questions');
@@ -167,14 +176,19 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                                 const parsed = JSON.parse(message);
 
                                 const delta = parsed.choices[0].delta.content;
-                                if (typeof delta === 'string' || delta instanceof String) {
+                                if (typeof delta === 'string') {
+                                    // if (typeof delta === 'string' || delta instanceof String) {
                                     answer = delta;
-                                    completedAnswer += answer;
+                                    completedAnswer += answer;                                                                      
+                                    res.write(answer);
                                 }
-                                // console.log(">>>answer: " + answer);
+                                else {
+                                    console.log(">>>AVOID WRITING: " + delta);
+                                }
+                                console.log(">>>answer: " + answer);
+                                // send answer to client in chunks  
                                 
-                                // send answer to client in chunks
-                                res.write(answer);
+                                
                             } catch (error) {
                                 console.error('>Error: Could not JSON parse stream message', message, error);
                             }
@@ -203,15 +217,29 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
     else {
       console.log('Document data:', doc.data());
       console.log('Document answer:', doc.data().answer);
-    //   res.status(200).json({ result: doc.data().answer });
       res.write(doc.data().answer);
       res.end();
     }
 });
 
 function generatePrompt(question) {
-    return `The following is a question made to an AI assistant. The answers should concern Hawaii islands, so ideally the answers will be made for tourists, visitors, and people willing to know more about Hawaii islands. The assistant is friendly, very informative. The assistant answers are written at a 14 years old level.
-    
+    return `The following is a question made to an AI assistant.
+    The answers should concern Hawaii islands, so ideally the answers will be made for tourists, visitors, and people willing to know more about Hawaii islands. 
+    The assistant is friendly, very informative. The assistant talk in a warm, casual, friendly, everyday close-friend tone. The assistant answers are written at a 14 years old level.
+    Answers should be directed to "you" (the user). 
+    The assistant should keep in context for the next question. Example:
+        - If a user asks for a list of beaches, the assistant should answer with a list of beaches.
+        - If then the user asks for more information about the first item of the list, the assistant should answer with more information about the first item of the list.
+        - That is, the assistant should keep the context of the previous question.    
+    Please avoid double punctuation (ex: "!!").
+    About the list titles:
+        - The list titles will be followed by a point (.) not a colon (:).
+        - The list titles must include an emoji related to the topic.
+        - The list titles must be written in title case (ex: "Best Places To Visit In Hawaii").
+        - The list titles must be written in a way that makes sense when followed by a point (ex: "Best Places To Visit In Hawaii.").
+        - The item titles from a list must be bold with HTML tags (<b>). Please do not use markdown tags (**). Example:
+            <b>1. Waikiki Beach.</b> Waikiki Beach is a beachfront neighborhood of Honolulu, on the south shore of the island of Oahu, Hawaii. It is the most populated neighborhood in the state of Hawaii and the United States. Waikiki Beach is a popular tourist destination, and is known for its white sand beach, shopping, and nightlife.
+            <b>2. Oahu Beach.</b> Oahu Beach is a beachfront neighborhood of Honolulu, on the south shore of the island of Oahu, Hawaii. It is the most populated neighborhood in the state of Hawaii and the United States. Oahu Beach is a popular tourist destination, and is known for its white sand beach, shopping, and nightlife.
     Human: ${question}
     AI:`;
-}
+} 

@@ -453,11 +453,6 @@ window.addEventListener("load", () => {
     });
 
     // Set up our request
-
-    // XHR.setRequestHeader('Transfer-Encoding', 'chunked');
-    // XHR.setRequestHeader('X-Content-Type-Options', 'nosniff');
-    // XHR.setRequestHeader('Content-Type', 'text/json');
-
     XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value +"'");
     
     XHR.addEventListener("progress", (event) => {
@@ -469,22 +464,9 @@ window.addEventListener("load", () => {
       const text = event.target.responseText.replace(/\n/g, "<br>");
       // const htmlContent = event.target.responseText;
 
-      // var responseDiv = document.getElementById("response-" + identifier);
-      // // if (responseDiv != null) {
-      //   responseDiv.innerText = "hola";
-      // // }
-
-      askhawaiiText.innerHTML = text;
+      askhawaiiText.innerHTML = "<div>" + text + "</div>";
       answerQuestion.textContent = askhawaiiQuestion.value;
     });
-
-    // XHR.onprogress = (event) => { 
-    //   console.log("RAFA GET: " + event.target.responseText);
-    //   hideSpinner();
-      
-    //   askhawaiiText.innerText = event.target.responseText;
-    //   answerQuestion.textContent = askhawaiiQuestion.value;
-    // }
 
     // The data sent is what the user provided in the form
     XHR.send(FD);
