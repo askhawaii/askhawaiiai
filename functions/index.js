@@ -153,7 +153,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                         if (message == '[DONE]') {
 
                             answer = '\n\n<div class="bookDiv d-flex justify-content-center">' +
-                                                '<a class="book-link" href="https://hawaiiblt.com" target="_blank">Book your Hawaii Bucket' +
+                                                '<a class="book-link" href="https://hawaiiblt.com" target="_blank">Book your Hawaii Bucket ' +
                                                 'List Tour 🏝️</a>' +
                                                 '</div>';
 

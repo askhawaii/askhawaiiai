@@ -14,7 +14,7 @@ prepositionsAccordion.hidden = true;
 relatedAccordion.hidden = true;
 
 // When the user scrolls the page, execute myFunction 
-window.onscroll = function() {myFunction()};
+window.onscroll = function () { myFunction() };
 
 // Get the header
 var header = document.getElementById("myHeader");
@@ -54,8 +54,8 @@ window.addEventListener("load", () => {
       jsonResult.forEach(element => {
         const question = element.question;
         const answer = element.answer;
-        const questionKey = question.replace(/ /g,"_").toLowerCase();
-        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        const questionKey = question.replace(/ /g, "_").toLowerCase();
+        const answerKey = answer.replace(/ /g, "_").toLowerCase();
         // accordion item
         var accordionItem = document.createElement("div");
         accordionItem.classList.add("accordion-item");
@@ -64,7 +64,7 @@ window.addEventListener("load", () => {
         var accordionHeader = document.createElement("h2");
         accordionHeader.classList.add("accordion-header");
         accordionHeader.id = "heading-" + questionKey;
-        
+
         // accordion link
         var accordionLink = document.createElement("a");
         accordionLink.classList.add("accordion-button");
@@ -73,7 +73,7 @@ window.addEventListener("load", () => {
         accordionLink.innerHTML = question;
         accordionLink.setAttribute("display", "inline-block");
         accordionHeader.appendChild(accordionLink);
-        
+
         // accordion collapse
         var accordionCollapse = document.createElement("div");
         accordionCollapse.classList.add("accordion-collapse");
@@ -132,7 +132,7 @@ window.addEventListener("load", () => {
         shareButton.setAttribute("data-bs-target", "#exampleModal");
         shareButton.innerHTML = "Share";
         shareDiv.appendChild(shareButton);
-        
+
         // appending
         // accordionBody.appendChild(shareDiv);
         // accordionBody.appendChild(bookDiv);
@@ -172,8 +172,8 @@ window.addEventListener("load", () => {
       jsonResult.forEach(element => {
         const question = element.question;
         const answer = element.answer;
-        const questionKey = question.replace(/ /g,"_").toLowerCase();
-        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        const questionKey = question.replace(/ /g, "_").toLowerCase();
+        const answerKey = answer.replace(/ /g, "_").toLowerCase();
         // accordion item
         var accordionItem = document.createElement("div");
         accordionItem.classList.add("accordion-item");
@@ -237,8 +237,8 @@ window.addEventListener("load", () => {
       jsonResult.forEach(element => {
         const question = element.question;
         const answer = element.answer;
-        const questionKey = question.replace(/ /g,"_").toLowerCase();
-        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        const questionKey = question.replace(/ /g, "_").toLowerCase();
+        const answerKey = answer.replace(/ /g, "_").toLowerCase();
         // accordion item
         var accordionItem = document.createElement("div");
         accordionItem.classList.add("accordion-item");
@@ -302,8 +302,8 @@ window.addEventListener("load", () => {
       jsonResult.forEach(element => {
         const question = element.question;
         const answer = element.answer;
-        const questionKey = question.replace(/ /g,"_").toLowerCase();
-        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        const questionKey = question.replace(/ /g, "_").toLowerCase();
+        const answerKey = answer.replace(/ /g, "_").toLowerCase();
         // accordion item
         var accordionItem = document.createElement("div");
         accordionItem.classList.add("accordion-item");
@@ -367,8 +367,8 @@ window.addEventListener("load", () => {
       jsonResult.forEach(element => {
         const question = element.question;
         const answer = element.answer;
-        const questionKey = question.replace(/ /g,"_").toLowerCase();
-        const answerKey = answer.replace(/ /g,"_").toLowerCase();
+        const questionKey = question.replace(/ /g, "_").toLowerCase();
+        const answerKey = answer.replace(/ /g, "_").toLowerCase();
         // accordion item
         var accordionItem = document.createElement("div");
         accordionItem.classList.add("accordion-item");
@@ -413,8 +413,8 @@ window.addEventListener("load", () => {
     relatedXHR.send();
   }
 
-//================================================================================
-  
+  //================================================================================
+
 
   // send data on custom question
   function sendData(manually, identifier) {
@@ -434,17 +434,17 @@ window.addEventListener("load", () => {
         // handleResponse(event.target.responseText);
         // hideSpinner();
         console.log("manually: " + event.target.responseText);
-      } 
+      }
       // question suggested
       else {
         console.log("not manually: " + event.target.responseText);
         console.log("identifier: " + identifier);
         const json = JSON.parse(event.target.responseText);
-        const htmlContent = json.result.replace(/\n/g,"<br>");
-    
+        const htmlContent = json.result.replace(/\n/g, "<br>");
+
         var responseDiv = document.getElementById("response-" + identifier);
         responseDiv.innerHTML = htmlContent;
-      }      
+      }
     });
 
     // Define what happens in case of error
@@ -453,38 +453,23 @@ window.addEventListener("load", () => {
     });
 
     // Set up our request
+    XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value + "'");
 
-    // XHR.setRequestHeader('Transfer-Encoding', 'chunked');
-    // XHR.setRequestHeader('X-Content-Type-Options', 'nosniff');
-    // XHR.setRequestHeader('Content-Type', 'text/json');
-
-    XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value +"'");
-    
     XHR.addEventListener("progress", (event) => {
-      console.log("->RAFA: " + event.target.responseText);
+      // console.log("->RAFA: " + event.target.responseText);
       hideSpinner();
 
-      // const json = JSON.parse(event.target.responseText);
-      // const htmlContent = json.result.replace(/\n/g, "<br>");
       const text = event.target.responseText.replace(/\n/g, "<br>");
-      // const htmlContent = event.target.responseText;
 
-      // var responseDiv = document.getElementById("response-" + identifier);
-      // // if (responseDiv != null) {
-      //   responseDiv.innerText = "hola";
-      // // }
+      var questionTitle = askhawaiiQuestion.value;
 
-      askhawaiiText.innerHTML = text;
-      answerQuestion.textContent = askhawaiiQuestion.value;
+      // questionTitle to be sentence capitalized
+      questionTitle = questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1);
+
+
+      askhawaiiText.innerHTML = "<div>" + text + "</div>";
+      answerQuestion.textContent = questionTitle;
     });
-
-    // XHR.onprogress = (event) => { 
-    //   console.log("RAFA GET: " + event.target.responseText);
-    //   hideSpinner();
-      
-    //   askhawaiiText.innerText = event.target.responseText;
-    //   answerQuestion.textContent = askhawaiiQuestion.value;
-    // }
 
     // The data sent is what the user provided in the form
     XHR.send(FD);
@@ -502,7 +487,7 @@ window.addEventListener("load", () => {
     if (event.target.id != "") {
       console.log("menuButtons clicked");
       console.log(event.target.id);
-  
+
       // toogling inactive all links
       var planButton = document.getElementById("plan-button");
       planButton.classList.remove("active");
@@ -514,7 +499,7 @@ window.addEventListener("load", () => {
       prepositionsButton.classList.remove("active");
       var relatedButton = document.getElementById("related-button");
       relatedButton.classList.remove("active");
-      
+
       var button = document.getElementById(event.target.id);
       button.classList.toggle("active");
     }
@@ -527,13 +512,13 @@ window.addEventListener("load", () => {
   // accordions methods handlers
   //--------------------------------------------------------------------------------
   planAccordion.addEventListener("click", (event) => {
-    tooglingCollapsedDiv(event);    
+    tooglingCollapsedDiv(event);
   });
 
   questionsAccordion.addEventListener("click", (event) => {
     tooglingCollapsedDiv(event);
   });
-  
+
   suggestionsAccordion.addEventListener("click", (event) => {
     tooglingCollapsedDiv(event);
   });
@@ -549,12 +534,12 @@ window.addEventListener("load", () => {
   function tooglingCollapsedDiv(event) {
     event.preventDefault();
     console.log("> step1: tooglingCollapsedDiv")
-    if(event.target.classList.contains("accordion-button")) {
+    if (event.target.classList.contains("accordion-button")) {
       console.log("> step2: accordion-button clicked");
       var collapseDiv = document.getElementById("collapse-" + event.target.id);
       collapseDiv.classList.toggle("show");
-    } 
-    else if(event.target.classList.contains("bookImage")) {
+    }
+    else if (event.target.classList.contains("bookImage")) {
       console.log("> link - deberia funcionar");
       var href = "https://hawaiiblt.com";
       window.open(href, '_blank');
@@ -564,7 +549,7 @@ window.addEventListener("load", () => {
       console.log("> step3. not accordion-button - deberia funcionar");
       var exampleModal = document.getElementById("exampleModal");
       exampleModal.classList.toggle("show");
-    }    
+    }
   }
 
   //--------------------------------------------------------------------------------
@@ -577,7 +562,7 @@ window.addEventListener("load", () => {
     sendData(true, null);
   });
 
-  menuButtons.addEventListener("click", (event) => {  
+  menuButtons.addEventListener("click", (event) => {
     event.preventDefault();
     console.log("lo del click");
     switch (event.target.id) {
@@ -588,7 +573,7 @@ window.addEventListener("load", () => {
         console.log("suggestions-button clicked");
         showSuggestions();
         break;
-      case "questions-button":      
+      case "questions-button":
         showQuestions();
         break;
       case "prepositions-button":
@@ -661,5 +646,5 @@ window.addEventListener("load", () => {
     prepositionsAccordion.hidden = true;
     var relatedAccordion = document.getElementById("relatedAccordion");
     relatedAccordion.hidden = true;
-  }  
+  }
 });

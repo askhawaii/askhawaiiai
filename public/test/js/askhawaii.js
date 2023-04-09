@@ -456,16 +456,19 @@ window.addEventListener("load", () => {
     XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value +"'");
     
     XHR.addEventListener("progress", (event) => {
-      console.log("->RAFA: " + event.target.responseText);
+      // console.log("->RAFA: " + event.target.responseText);
       hideSpinner();
 
-      // const json = JSON.parse(event.target.responseText);
-      // const htmlContent = json.result.replace(/\n/g, "<br>");
       const text = event.target.responseText.replace(/\n/g, "<br>");
-      // const htmlContent = event.target.responseText;
 
+      var questionTitle = askhawaiiQuestion.value;
+      
+      // questionTitle to be sentence capitalized
+      questionTitle = questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1);
+
+      
       askhawaiiText.innerHTML = "<div>" + text + "</div>";
-      answerQuestion.textContent = askhawaiiQuestion.value;
+      answerQuestion.textContent = questionTitle;
     });
 
     // The data sent is what the user provided in the form
