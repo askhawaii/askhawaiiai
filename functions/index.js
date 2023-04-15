@@ -134,10 +134,10 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
             }
     
             try {
-
+                
                 // calling openai
                 const completion = await openai.createChatCompletion({
-                    model: "gpt-3.5-turbo",
+                    model: "gpt-4",
                     messages: [{ role: "user", content: generatePrompt(questionInput) }],
                     temperature: 0.7,
                     stream: true
@@ -151,12 +151,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                     for (const line of lines) {
                         const message = line.replace(/^data: /, '');
                         if (message == '[DONE]') {
-
-                            answer = '\n\n<div class="bookDiv d-flex justify-content-center">' +
-                                                '<a class="book-link" href="https://hawaiiblt.com" target="_blank">Book your Hawaii Bucket ' +
-                                                'List Tour 🏝️</a>' +
-                                                '</div>';
-
+                            answer = '';
                             completedAnswer += answer;
                             res.write(answer);
 
@@ -225,7 +220,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
 function generatePrompt(question) {
     return `The following is a question made to an AI assistant.
     The answers should concern Hawaii islands, so ideally the answers will be made for tourists, visitors, and people willing to know more about Hawaii islands. 
-    The assistant is friendly, very informative. The assistant talk in a warm, casual, friendly, everyday close-friend tone. The assistant answers are written at a 14 years old level.
+    The assistant is friendly, very informative. The assistant talk in a motivational, warm, casual, friendly, everyday close-friend tone. The assistant answers are written at a 14 years old level.
     Answers should be directed to "you" (the user). 
     The assistant should keep in context for the next question. Example:
         - If a user asks for a list of beaches, the assistant should answer with a list of beaches.

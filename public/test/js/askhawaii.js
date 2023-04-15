@@ -423,28 +423,44 @@ window.addEventListener("load", () => {
     const FD = new FormData(form);
 
     // Define what happens on successful data submission
-
     console.log("-> SEND DATA");
 
     XHR.addEventListener("load", (event) => {
       console.log("**RAFA**");
       console.log(event.target);
+     
       // question customly written
       if (manually == true) {
         // handleResponse(event.target.responseText);
         // hideSpinner();
         console.log("manually: " + event.target.responseText);
-      } 
+      }
       // question suggested
       else {
         console.log("not manually: " + event.target.responseText);
         console.log("identifier: " + identifier);
         const json = JSON.parse(event.target.responseText);
-        const htmlContent = json.result.replace(/\n/g,"<br>");
-    
+        const htmlContent = json.result.replace(/\n/g, "<br>");
+
         var responseDiv = document.getElementById("response-" + identifier);
         responseDiv.innerHTML = htmlContent;
-      }      
+      }
+    });
+
+    // add event listener for progress
+    XHR.addEventListener("progress", (event) => {
+      console.log("->PRO: " + event.target.responseText);
+      hideSpinner();
+
+      const text = event.target.responseText.replace(/\n/g, "<br>");
+
+      var questionTitle = askhawaiiQuestion.value;
+
+      // questionTitle to be sentence capitalized
+      questionTitle = questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1);
+
+      askhawaiiText.innerHTML = "<div>" + text + "</div>";
+      answerQuestion.textContent = questionTitle;
     });
 
     // Define what happens in case of error
@@ -452,28 +468,29 @@ window.addEventListener("load", () => {
       alert('Oops! Something went wrong.');
     });
 
-    // Set up our request
-    XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value +"'");
-    
-    XHR.addEventListener("progress", (event) => {
-      // console.log("->RAFA: " + event.target.responseText);
-      hideSpinner();
+    // Open our request
+    XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value + "'");
 
-      const text = event.target.responseText.replace(/\n/g, "<br>");
-
-      var questionTitle = askhawaiiQuestion.value;
-      
-      // questionTitle to be sentence capitalized
-      questionTitle = questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1);
-
-      
-      askhawaiiText.innerHTML = "<div>" + text + "</div>";
-      answerQuestion.textContent = questionTitle;
-    });
+    // XHR.addEventListener("progress", updateProgress, false);
 
     // The data sent is what the user provided in the form
     XHR.send(FD);
   }
+
+  // function updateProgress(event) {
+
+  //   hideSpinner();
+
+  //   const text = event.target.responseText.replace(/\n/g, "<br>");
+
+  //   var questionTitle = askhawaiiQuestion.value;
+
+  //   // questionTitle to be sentence capitalized
+  //   questionTitle = questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1);
+
+  //   askhawaiiText.innerHTML = "<div>" + text + "</div>";
+  //   answerQuestion.textContent = questionTitle;
+  // }
 
   // Get the form element
   const form = document.getElementById("askHawaiiForm");
@@ -625,7 +642,6 @@ window.addEventListener("load", () => {
   }
 
   function hideSpinner() {
-    console.log("> hidding spinner");
     var spinner = document.getElementById("spinner");
     spinner.hidden = true;
     var formResponse = document.getElementById("form-response");

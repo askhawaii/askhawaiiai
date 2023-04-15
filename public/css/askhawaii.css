@@ -58,7 +58,7 @@ body {
   background-color: white;
   border-color: whitesmoke;
   text-align: left;
-  max-width: 684px;
+  max-width: 620px;
   /* max-width: 98%; */
   margin: 20px auto;
   /* visibility: hidden; */
@@ -295,7 +295,9 @@ ul {
 }
 
 .bookDiv {
+  padding-top: 22px;
   text-align: center;
+  font-size: 13.5pt;
 }
 
 .bookDiv a,
@@ -331,7 +333,7 @@ button:focus {
 
 .main {
   /* max-width: 380px;   */
-  max-width: 684px;
+  max-width: 620px;
   /* max-width: 92%; */
   padding-left: 20px;
   padding-right: 20px;
