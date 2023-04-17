@@ -137,7 +137,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                 
                 // calling openai
                 const completion = await openai.createChatCompletion({
-                    model: "gpt-4",
+                    model: "gpt-3.5-turbo",
                     messages: [{ role: "user", content: generatePrompt(questionInput) }],
                     temperature: 0.7,
                     stream: true
