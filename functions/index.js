@@ -161,7 +161,6 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                                 console.log(">>>completedAnswer: " + completedAnswer);
                                 
                                 //saving in firestore
-
                                 const questionsRef = db.collection('questions');
                                 questionsRef.doc(questionKey).set({
                                     question: questionInput, answer: completedAnswer
@@ -184,7 +183,6 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                                 }
                                 console.log(">>>answer: " + answer);
                                 // send answer to client in chunks  
-                                
                                 
                             } catch (error) {
                                 console.error('>Error: Could not JSON parse stream message', message, error);
