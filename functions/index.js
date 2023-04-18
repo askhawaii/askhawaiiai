@@ -105,6 +105,7 @@ exports.readRelated = functions.https.onRequest(async (req, res) => {
 // askhawaiiAI method
 //-----------------------
 exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
+
     const questionInput = req.query.text;
     const questionKey = questionInput.replace(/ /g,"_").toLowerCase();
 
@@ -155,11 +156,12 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
                             completedAnswer += answer;
                             res.write(answer);
 
-                            res.end(() => {
+                            res.end(async () => {
                                 console.log(">END (GPT-4)");
                                 console.log(">>>completedAnswer: " + completedAnswer);
                                 
-                                //saving in firebase
+                                //saving in firestore
+
                                 const questionsRef = db.collection('questions');
                                 questionsRef.doc(questionKey).set({
                                     question: questionInput, answer: completedAnswer

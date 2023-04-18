@@ -295,7 +295,7 @@ ul {
 }
 
 .bookDiv {
-  padding-top: 22px;
+  padding-top: 26px;
   text-align: center;
   font-size: 13.5pt;
 }
@@ -308,6 +308,19 @@ ul {
   text-decoration: none;
 }
 
+.askhawaii-question-url {
+  padding-top: 26px;
+  text-align: right;
+  font-size: 13.5pt;
+}
+
+.askhawaii-question-url a,
+.askhawaii-question-url a:visited,
+.askhawaii-question-url a:active,
+.askhawaii-question-url a:hover {
+  color: royalblue;
+  text-decoration: none;
+}
 
 
 button.focus,

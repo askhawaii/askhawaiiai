@@ -1,6 +1,7 @@
 const askhawaiiText = document.getElementById('askhawaii-text');
 const askhawaiiQuestion = document.getElementById('askhawaii-question');
 const answerQuestion = document.getElementById('question');
+const askhawaiiQuestionURL = document.getElementById('askhawaii-question-url');
 
 var planAccordion = document.getElementById("planAccordion");
 var suggestionsAccordion = document.getElementById("suggestionsAccordion");
@@ -33,8 +34,19 @@ function myFunction() {
 
 //-----------------//
 
-
 window.addEventListener("load", () => {
+
+  // function to check url for query "question"
+  function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      if (decodeURIComponent(pair[0]) == variable) {
+        return decodeURIComponent(pair[1]);
+      }
+    }
+  }
 
   // showPlan();
 
@@ -414,10 +426,24 @@ window.addEventListener("load", () => {
   }
 
   //================================================================================
-
+  
+  // function to clear the tail spaces of a string, and to convert double spaces to single spaces
+  function clearSpaces(string) {
+    // removing tail spaces
+    while (string[string.length - 1] == " ") {
+      string = string.substring(0, string.length - 1);
+    }
+    // removing double spaces
+    while (string.includes("  ")) {
+      string = string.replace("  ", " ");
+    }
+    return string;
+  }
 
   // send data on custom question
   function sendData(manually, identifier) {
+
+    let trimmedQuestion = clearSpaces(askhawaiiQuestion.value);
 
     const XHR = new XMLHttpRequest();
     const FD = new FormData(form);
@@ -448,20 +474,13 @@ window.addEventListener("load", () => {
     });
 
     // add event listener for progress
-
-
-
     // XHR.addEventListener("progress", (event) => {
     //   console.log("->PRO: " + event.target.responseText);
     //   hideSpinner();
-
     //   const text = event.target.responseText.replace(/\n/g, "<br>");
-
     //   var questionTitle = askhawaiiQuestion.value;
-
     //   // questionTitle to be sentence capitalized
     //   questionTitle = questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1);
-
     //   askhawaiiText.innerHTML = "<div>" + text + "</div>";
     //   answerQuestion.textContent = questionTitle;
     // });
@@ -472,7 +491,7 @@ window.addEventListener("load", () => {
     });
 
     // Open our request
-    XHR.open("POST", "/askHawaiiAI?text='" + askhawaiiQuestion.value + "'");
+    XHR.open("POST", "/askHawaiiAI?text='" + trimmedQuestion + "'");
 
     XHR.addEventListener("progress", updateProgress, false);
 
@@ -480,19 +499,100 @@ window.addEventListener("load", () => {
     XHR.send(FD);
   }
 
+  // function to convert a string in a url parameter value
+  function convertToURLParam(string) {
+    string = string.replace(/ /g, "_");
+    string = string.replace(/'/g, "%27");
+    string = string.replace(/"/g, "%22");
+    string = string.replace(/:/g, "%3A");
+    string = string.replace(/;/g, "%3B");
+    string = string.replace(/,/g, "%2C");
+    string = string.replace(/\?/g, "%3F");
+    string = string.replace(/!/g, "%21");
+    string = string.replace(/\(/g, "%28");
+    string = string.replace(/\)/g, "%29");
+    string = string.replace(/\[/g, "%5B");
+    string = string.replace(/\]/g, "%5D");
+    string = string.replace(/&/g, "%26");
+    string = string.replace(/=/g, "%3D");
+    string = string.replace(/\+/g, "%2B");
+    string = string.replace(/\$/g, "%24");
+    string = string.replace(/#/g, "%23");
+    string = string.replace(/@/g, "%40");
+    string = string.replace(/%/g, "%25");
+    string = string.replace(/</g, "%3C");
+    string = string.replace(/>/g, "%3E");
+    string = string.replace(/\//g, "%2F");
+    string = string.replace(/\\/g, "%5C");
+    string = string.replace(/\|/g, "%7C");
+    string = string.replace(/`/g, "%60");
+    string = string.replace(/~/g, "%7E");
+    string = string.replace(/{/g, "%7B");
+    string = string.replace(/}/g, "%7D");
+    string = string.replace(/\^/g, "%5E");
+    string = string.replace(/_/g, "%5F");
+    string = string.replace(/-/g, "%2D");
+    string = string.replace(/\./g, "%2E");
+    string = string.replace(/\*/g, "%2A");
+    return string;
+  }
+
+  // function inverse to convertToURLParam
+  function convertFromURLParam(string) {
+    string = string.replace(/%27/g, "'");
+    string = string.replace(/%22/g, '"');
+    string = string.replace(/%3A/g, ":");
+    string = string.replace(/%3B/g, ";");
+    string = string.replace(/%2C/g, ",");
+    string = string.replace(/%3F/g, "?");
+    string = string.replace(/%21/g, "!");
+    string = string.replace(/%28/g, "(");
+    string = string.replace(/%29/g, ")");
+    string = string.replace(/%5B/g, "[");
+    string = string.replace(/%5D/g, "]");
+    string = string.replace(/%26/g, "&");
+    string = string.replace(/%3D/g, "=");
+    string = string.replace(/%2B/g, "+");
+    string = string.replace(/%24/g, "$");
+    string = string.replace(/%23/g, "#");
+    string = string.replace(/%40/g, "@");
+    string = string.replace(/%25/g, "%");
+    string = string.replace(/%3C/g, "<");
+    string = string.replace(/%3E/g, ">");
+    string = string.replace(/%2F/g, "/");
+    string = string.replace(/%5C/g, "\\");
+    string = string.replace(/%7C/g, "|");
+    string = string.replace(/%60/g, "`");
+    string = string.replace(/%7E/g, "~");
+    string = string.replace(/%7B/g, "{");
+    string = string.replace(/%7D/g, "}");
+    string = string.replace(/%5E/g, "^");
+    string = string.replace(/%5F/g, "_");
+    string = string.replace(/%2D/g, "-");
+    string = string.replace(/%2E/g, ".");
+    string = string.replace(/%2A/g, "*");
+    string = string.replace(/_/g, " ");
+    return string;
+  }
+
+
   function updateProgress(event) {
 
     hideSpinner();
 
     const text = event.target.responseText.replace(/\n/g, "<br>");
 
-    var questionTitle = askhawaiiQuestion.value;
+    var questionTitle = clearSpaces(askhawaiiQuestion.value);
 
     // questionTitle to be sentence capitalized
     questionTitle = questionTitle.charAt(0).toUpperCase() + questionTitle.slice(1);
 
     askhawaiiText.innerHTML = "<div>" + text + "</div>";
     answerQuestion.textContent = questionTitle;
+
+    const questionParameter = convertToURLParam(clearSpaces(askhawaiiQuestion.value));
+    const urlParameter = "https://askhawaii.com/index.html?question=" + questionParameter;
+    askhawaiiQuestionURL.innerHTML = '<a href="' + urlParameter + '" target="_blank">Link to be shared</a>';
   }
 
   // Get the form element
@@ -630,7 +730,8 @@ window.addEventListener("load", () => {
     // const htmlContent = json.result.replace(/\n/g,"<br>");
     askhawaiiText.innerHTML = responseText;
     // askhawaiiText.innerHTML = htmlContent;
-    answerQuestion.textContent = askhawaiiQuestion.value;
+    answerQuestion.textContent = clearSpaces(askhawaiiQuestion.value);
+    askhawaiiQuestionURL.innerHTML = "https://askhawaii.com/index.html?question=" + clearSpaces(askhawaiiQuestion.value);
   }
 
   //---------------------------------------
@@ -665,5 +766,20 @@ window.addEventListener("load", () => {
     prepositionsAccordion.hidden = true;
     var relatedAccordion = document.getElementById("relatedAccordion");
     relatedAccordion.hidden = true;
+  }
+
+  // handling queries via url
+
+  const queryValue = getQueryVariable("question");
+  if (queryValue) {
+    console.log(">queryValue: " + queryValue);
+
+    askhawaiiQuestion.value = convertFromURLParam(queryValue);
+    console.log(">askHawaiiQuestion: " + askhawaiiQuestion.value);
+    showSpinner();
+    sendData(true, null);
+
+  } else {
+    console.log("no queryValue");
   }
 });
