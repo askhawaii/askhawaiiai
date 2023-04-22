@@ -591,7 +591,7 @@ window.addEventListener("load", () => {
     answerQuestion.textContent = questionTitle;
 
     const questionParameter = convertToURLParam(clearSpaces(askhawaiiQuestion.value));
-    const urlParameter = "https://askhawaii.com/index.html?question=" + questionParameter;
+    const urlParameter = "https://askhawaii.ai/index.html?question=" + questionParameter;
     askhawaiiQuestionURL.innerHTML = '<a href="' + urlParameter + '" target="_blank">Link to be shared</a>';
 
     askhawaiiQuestionURL.innerHTML = '<div>' +
@@ -602,16 +602,11 @@ window.addEventListener("load", () => {
                                       '          src="images/flat_web_icon_set/inverted/Facebook.png" /></a></li>' +
                                       
                                       '    <li><a' +
-                                      '        href="https://twitter.com/intent/tweet?source' + urlParameter + '&text=Ask%20Hawaii:%20http%3A%2F%2Fwww.askhawaii.ai"' +
+                                      '        href="https://twitter.com/intent/tweet?source=' + urlParameter + '&text=Ask%20Hawaii:%20' + urlParameter + '"' +
                                       '        target="_blank" title="Tweet"><img alt="Tweet" src="images/flat_web_icon_set/inverted/Twitter.png" /></a></li>' +
 
                                       '    <li><a href="http://www.reddit.com/submit?url=' + urlParameter + '&title=Ask%20Hawaii" target="_blank"' +
                                       '        title="Submit to Reddit"><img alt="Submit to Reddit" src="images/flat_web_icon_set/inverted/Reddit.png" /></a></li>' +
-
-                                      '    <li><a' +
-                                      '        href="http://www.linkedin.com/shareArticle?mini=true&url=' + urlParameter + '&title=Ask%20Hawaii&summary=&source=' + urlParameter + '"' +
-                                      '        target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn"' +
-                                      '          src="images/flat_web_icon_set/inverted/LinkedIn.png" /></a></li>' +
 
                                       '    <li><a href="mailto:?subject=Ask%20Hawaii&body=%20' + urlParameter + '" target="_blank"' +
                                       '        title="Send email"><img alt="Send email" src="images/flat_web_icon_set/inverted/Email.png" /></a></li>' +

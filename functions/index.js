@@ -101,6 +101,12 @@ exports.readRelated = functions.https.onRequest(async (req, res) => {
     });
 });
 
+
+// function to check if a string contains forbidden words
+function containsForbiddenWords(text) {
+    return false;
+}
+
 //-----------------------
 // askhawaiiAI method
 //-----------------------
@@ -114,6 +120,7 @@ exports.askHawaiiAI = functions.https.onRequest(async (req, res) => {
     const doc = await docRef.get();
     // question doesn't exist previously. Querying openai.
     if (!doc.exists) {
+
         console.log('No such document! Making petition to OpenAI');
         try {
             if (!configuration.apiKey) {
